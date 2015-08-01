@@ -1,7 +1,7 @@
 ﻿using System.IO.IsolatedStorage;
 
-using Xamarin.Tracing;
-using Xamarin.Utils;
+using CrossPlatformLibrary.Tracing;
+using CrossPlatformLibrary.Utils;
 
 namespace CrossPlatformLibrary.Settings
 {

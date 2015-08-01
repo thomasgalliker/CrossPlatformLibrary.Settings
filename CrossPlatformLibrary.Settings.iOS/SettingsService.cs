@@ -1,6 +1,6 @@
 
-using Xamarin.Utils;
-using Xamarin.IO;
+using CrossPlatformLibrary.Utils;
+using CrossPlatformLibrary.IO;
 
 using System;
 using System.Globalization;

@@ -5,7 +5,7 @@ using Android.App;
 using Android.Content;
 using Android.Preferences;
 
-using Xamarin.IO;
+using CrossPlatformLibrary.IO;
 
 namespace CrossPlatformLibrary.Settings
 {

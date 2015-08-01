@@ -1,4 +1,4 @@
-using Xamarin.Utils;
+using CrossPlatformLibrary.Utils;
 
 namespace CrossPlatformLibrary.Settings
 {
