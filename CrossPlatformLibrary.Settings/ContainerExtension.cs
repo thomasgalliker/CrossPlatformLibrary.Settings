@@ -6,7 +6,7 @@ namespace CrossPlatformLibrary.Settings
     {
         public void Initialize(ISimpleIoc container)
         {
-            container.RegisterPlatformSpecific<ISettingsService>();
+            container.RegisterWithConvention<ISettingsService>();
         }
     }
 }
