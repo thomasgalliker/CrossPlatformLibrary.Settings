@@ -5,6 +5,6 @@ namespace CrossPlatformLibrary.Settings
     {
         T GetValueOrDefault<T>(string key, T defaultValue = default(T));
 
-        bool AddOrUpdateValue<T>(string key, T value);
+        void AddOrUpdateValue<T>(string key, T value);
     }
 }

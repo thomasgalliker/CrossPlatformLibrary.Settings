@@ -122,10 +122,9 @@ namespace CrossPlatformLibrary.Settings
             }
         }
 
-        public bool AddOrUpdateValue<T>(string key, T value)
+        public void AddOrUpdateValue<T>(string key, T value)
         {
             Guard.ArgumentNotNullOrEmpty(() => key);
-            ////Guard.ArgumentNotNull(() => value); //TODO
 
             Type typeOf = typeof(T);
             if (typeOf.IsGenericType && typeOf.GetGenericTypeDefinition() == typeof(Nullable<>))
@@ -175,17 +174,9 @@ namespace CrossPlatformLibrary.Settings
                         }
                         break;
                 }
-                try
-                {
-                    defaults.Synchronize();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Unable to save: " + key, " Message: " + ex.Message);
-                }
-            }
 
-            return true;
+                defaults.Synchronize();
+            }
         }
     }
 }

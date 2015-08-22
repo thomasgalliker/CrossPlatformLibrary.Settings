@@ -57,13 +57,11 @@ namespace CrossPlatformLibrary.Settings
             return null != value ? value : defaultValue;
         }
 
-        public bool AddOrUpdateValue<T>(string key, T value)
+        public void AddOrUpdateValue<T>(string key, T value)
         {
             Guard.ArgumentNotNullOrEmpty(() => key);
 
             this.tracer.Debug("AddOrUpdateValue with key={0} of type {1}", key, typeof(T));
-
-            bool valueChanged = false;
 
             lock (this.locker)
             {
@@ -75,26 +73,16 @@ namespace CrossPlatformLibrary.Settings
                     {
                         // Store key new value
                         IsoSettings[key] = value;
-                        valueChanged = true;
                     }
                 }
                 // Otherwise create the key.
                 else
                 {
                     IsoSettings.Add(key, value);
-                    valueChanged = true;
                 }
-            }
 
-            if (valueChanged)
-            {
-                lock (this.locker)
-                {
-                    IsoSettings.Save();
-                }
+                IsoSettings.Save();
             }
-
-            return valueChanged;
         }
     }
 }

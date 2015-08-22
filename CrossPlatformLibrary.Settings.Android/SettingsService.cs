@@ -12,7 +12,6 @@ namespace CrossPlatformLibrary.Settings
     public class SettingsService : ISettingsService
     {
         private static ISharedPreferences SharedPreferences { get; set; }
-
         private static ISharedPreferencesEditor SharedPreferencesEditor { get; set; }
 
         private readonly object locker = new object();
@@ -102,12 +101,10 @@ namespace CrossPlatformLibrary.Settings
         }
 
         /// <summary>
-        ///     Adds or updates a value
+        ///     Adds or updates the given value for the given key.
         /// </summary>
-        /// <param name="key">key to update</param>
-        /// <param name="value">value to set</param>
         /// <returns>True if added or update and you need to save</returns>
-        public bool AddOrUpdateValue<T>(string key, T value)
+        public void AddOrUpdateValue<T>(string key, T value)
         {
             lock (this.locker)
             {
@@ -155,13 +152,9 @@ namespace CrossPlatformLibrary.Settings
                         }
                         break;
                 }
-            }
 
-            lock (this.locker)
-            {
                 SharedPreferencesEditor.Commit();
             }
-            return true;
         }
     }
 }

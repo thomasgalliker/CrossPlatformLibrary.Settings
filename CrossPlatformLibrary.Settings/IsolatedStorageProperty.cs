@@ -1,3 +1,5 @@
+using System;
+
 using CrossPlatformLibrary.Utils;
 
 namespace CrossPlatformLibrary.Settings
@@ -7,6 +9,11 @@ namespace CrossPlatformLibrary.Settings
         private readonly ISettingsService settingsService;
         private readonly string key;
         private readonly T defaultValue;
+
+        public IsolatedStorageProperty(ISettingsService settingsService) 
+            : this(settingsService, Guid.NewGuid().ToString())
+        {
+        }
 
         public IsolatedStorageProperty(ISettingsService settingsService, string key, T defaultValue = default(T))
         {
