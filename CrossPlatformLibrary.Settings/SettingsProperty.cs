@@ -4,18 +4,18 @@ using CrossPlatformLibrary.Utils;
 
 namespace CrossPlatformLibrary.Settings
 {
-    public class IsolatedStorageProperty<T>
+    public class SettingsProperty<T>
     {
         private readonly ISettingsService settingsService;
         private readonly string key;
         private readonly T defaultValue;
 
-        public IsolatedStorageProperty(ISettingsService settingsService) 
-            : this(settingsService, Guid.NewGuid().ToString())
+        public SettingsProperty(ISettingsService settingsService, T defaultValue = default(T))
+            : this(settingsService, Guid.NewGuid().ToString(), defaultValue)
         {
         }
 
-        public IsolatedStorageProperty(ISettingsService settingsService, string key, T defaultValue = default(T))
+        public SettingsProperty(ISettingsService settingsService, string key, T defaultValue = default(T))
         {
             Guard.ArgumentNotNull(() => settingsService);
             Guard.ArgumentNotNullOrEmpty(() => key);
