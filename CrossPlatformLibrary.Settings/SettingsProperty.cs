@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 
 using CrossPlatformLibrary.Utils;
 
@@ -10,8 +11,8 @@ namespace CrossPlatformLibrary.Settings
         private readonly string key;
         private readonly T defaultValue;
 
-        public SettingsProperty(ISettingsService settingsService, T defaultValue = default(T))
-            : this(settingsService, Guid.NewGuid().ToString(), defaultValue)
+        public SettingsProperty(ISettingsService settingsService, Expression<Func<T>> expression, T defaultValue = default(T))
+            : this(settingsService, ((MemberExpression)expression.Body).Member.Name, defaultValue)
         {
         }
 
@@ -19,6 +20,7 @@ namespace CrossPlatformLibrary.Settings
         {
             Guard.ArgumentNotNull(() => settingsService);
             Guard.ArgumentNotNullOrEmpty(() => key);
+            Guard.ArgumentMustNotExceed(() => key, 255);
 
             this.settingsService = settingsService;
             this.key = key;
