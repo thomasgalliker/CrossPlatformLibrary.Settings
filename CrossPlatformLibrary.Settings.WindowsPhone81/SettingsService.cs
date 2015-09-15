@@ -84,10 +84,10 @@ namespace CrossPlatformLibrary.Settings
             T value = defaultValue;
             if (AppSettings.Values.ContainsKey(key))
             {
-                object tempValue = AppSettings.Values[key];
-                if (tempValue != null)
+                var settingsValue = AppSettings.Values[key];
+                if (settingsValue != null)
                 {
-                    value = (T)Convert.ChangeType(tempValue, typeof(T));
+                    value = this.converterRegistry.TryConvert(settingsValue, defaultValue);
                 }
             }
 

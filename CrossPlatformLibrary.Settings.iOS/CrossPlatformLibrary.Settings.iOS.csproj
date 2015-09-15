@@ -57,7 +57,7 @@
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
     <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=08c6ba4d2c447b3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeConverter.1.0.16\lib\MonoTouch10\TypeConverter.dll</HintPath>
+      <HintPath>..\packages\TypeConverter.1.0.18\lib\MonoTouch10\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

@@ -44,30 +44,20 @@ namespace CrossPlatformLibrary.Settings
             Type targetType = typeof(T);
             this.tracer.Debug("GetValueOrDefault with key={0} of type {1}", key, targetType);
 
-            T value;
+            T value = defaultValue;
             lock (this.locker)
             {
-                // If the key exists, retrieve the value.
                 if (IsoSettings.Contains(key))
                 {
                     var settingsValue = IsoSettings[key];
                     if (settingsValue != null)
                     {
-                        value = this.converterRegistry.TryConvert<T>(settingsValue);
+                        value = this.converterRegistry.TryConvert(settingsValue, defaultValue);
                     }
-                    else
-                    {
-                        value = defaultValue;
-                    }
-                }
-                // Otherwise, use the default value.
-                else
-                {
-                    value = defaultValue;
                 }
             }
 
-            return null != value ? value : defaultValue;
+            return value;
         }
 
         public void AddOrUpdateValue<T>(string key, T value)
