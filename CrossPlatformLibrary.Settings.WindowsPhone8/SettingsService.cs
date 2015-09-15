@@ -66,17 +66,13 @@ namespace CrossPlatformLibrary.Settings
 
             lock (this.locker)
             {
-                // If the key exists
                 if (IsoSettings.Contains(key))
                 {
-                    // If the value has changed
                     if (IsoSettings[key] != value as object)
                     {
-                        // Store key new value
                         IsoSettings[key] = value;
                     }
                 }
-                // Otherwise create the key.
                 else
                 {
                     IsoSettings.Add(key, value);

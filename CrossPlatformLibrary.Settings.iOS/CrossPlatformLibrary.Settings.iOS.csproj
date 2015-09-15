@@ -32,8 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\iPhone\Release\CrossPlatformLibrary.Settings.Platform.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

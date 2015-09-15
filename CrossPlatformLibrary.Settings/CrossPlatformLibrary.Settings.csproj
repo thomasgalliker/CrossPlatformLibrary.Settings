@@ -32,8 +32,7 @@
     <DefineConstants>TRACE;PORTABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Release\CrossPlatformLibrary.Settings.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ContainerExtension.cs" />
