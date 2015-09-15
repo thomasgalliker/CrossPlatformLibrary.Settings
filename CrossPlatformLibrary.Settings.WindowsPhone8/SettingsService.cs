@@ -1,7 +1,10 @@
-﻿using System.IO.IsolatedStorage;
+﻿using System;
+using System.IO.IsolatedStorage;
 
 using CrossPlatformLibrary.Tracing;
 using CrossPlatformLibrary.Utils;
+
+using TypeConverter;
 
 namespace CrossPlatformLibrary.Settings
 {
@@ -9,12 +12,23 @@ namespace CrossPlatformLibrary.Settings
     {
         private readonly object locker = new object();
         private readonly ITracer tracer;
+        private readonly IConverterRegistry converterRegistry;
 
-        public SettingsService(ITracer tracer)
+        public SettingsService(ITracer tracer, IConverterRegistry converterRegistry)
         {
             Guard.ArgumentNotNull(() => tracer);
+            Guard.ArgumentNotNull(() => converterRegistry);
 
             this.tracer = tracer;
+            this.converterRegistry = converterRegistry;
+        }
+
+        public IConverterRegistry ConverterRegistry
+        {
+            get
+            {
+                return this.converterRegistry;
+            }
         }
 
         private static IsolatedStorageSettings IsoSettings
@@ -27,9 +41,8 @@ namespace CrossPlatformLibrary.Settings
 
         public T GetValueOrDefault<T>(string key, T defaultValue = default(T))
         {
-            Guard.ArgumentNotNullOrEmpty(() => key);
-
-            this.tracer.Debug("GetValueOrDefault with key={0} of type {1}", key, typeof(T));
+            Type targetType = typeof(T);
+            this.tracer.Debug("GetValueOrDefault with key={0} of type {1}", key, targetType);
 
             T value;
             lock (this.locker)
@@ -37,10 +50,10 @@ namespace CrossPlatformLibrary.Settings
                 // If the key exists, retrieve the value.
                 if (IsoSettings.Contains(key))
                 {
-                    var tempValue = IsoSettings[key];
-                    if (tempValue != null)
+                    var settingsValue = IsoSettings[key];
+                    if (settingsValue != null)
                     {
-                        value = (T)tempValue;
+                        value = this.converterRegistry.TryConvert<T>(settingsValue);
                     }
                     else
                     {
@@ -59,8 +72,6 @@ namespace CrossPlatformLibrary.Settings
 
         public void AddOrUpdateValue<T>(string key, T value)
         {
-            Guard.ArgumentNotNullOrEmpty(() => key);
-
             this.tracer.Debug("AddOrUpdateValue with key={0} of type {1}", key, typeof(T));
 
             lock (this.locker)

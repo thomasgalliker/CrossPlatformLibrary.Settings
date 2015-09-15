@@ -1,15 +1,36 @@
 ﻿using System;
 using System.Globalization;
-using System.Reflection;
-
 using CrossPlatformLibrary.IO;
+using CrossPlatformLibrary.Tracing;
 using CrossPlatformLibrary.Utils;
+using TypeConverter;
 using Windows.Storage;
 
 namespace CrossPlatformLibrary.Settings
 {
     public class SettingsService : ISettingsService // TODO GATH: Test & verify if feature-complete compared to other SettingsServices
     {
+        private readonly object locker = new object();
+        private readonly ITracer tracer;
+        private readonly IConverterRegistry converterRegistry;
+
+        public SettingsService(ITracer tracer, IConverterRegistry converterRegistry)
+        {
+            Guard.ArgumentNotNull(() => tracer);
+            Guard.ArgumentNotNull(() => converterRegistry);
+
+            this.tracer = tracer;
+            this.converterRegistry = converterRegistry;
+        }
+
+        public IConverterRegistry ConverterRegistry
+        {
+            get
+            {
+                return this.converterRegistry;
+            }
+        }
+
         private static ApplicationDataContainer AppSettings
         {
             get
@@ -17,9 +38,6 @@ namespace CrossPlatformLibrary.Settings
                 return ApplicationData.Current.LocalSettings;
             }
         }
-
-        private readonly object locker = new object();
-
 
         // TODO GATH: All of these types are supported https://msdn.microsoft.com/en-us/library/windows/apps/br205768.aspx
         public T GetValueOrDefault<T>(string key, T defaultValue = default(T))
@@ -107,7 +125,6 @@ namespace CrossPlatformLibrary.Settings
         private static bool IsWindowsRuntimeType(Type type)
         {
             return
-                   (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)) ||
                    type == typeof(bool) ||
                    type == typeof(float) ||
                    type == typeof(long) ||

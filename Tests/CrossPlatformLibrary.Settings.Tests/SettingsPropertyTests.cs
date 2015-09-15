@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 
+using CrossPlatformLibrary.Utils;
 
 using Moq;
 
@@ -14,10 +14,10 @@ namespace CrossPlatformLibrary.Settings.Tests
         public void ShouldThrowArgumentNullExceptionIfSettingsServiceIsNull()
         {
             // Arrange
-            string settingsKey = "keyName";
+            string settingsKeyName = "keyName";
 
             // Act
-            Action action = () => new SettingsProperty<string>(null, settingsKey);
+            Action action = () => new SettingsProperty<string>(null, settingsKeyName);
 
             // Assert
             Assert.Throws<ArgumentNullException>(action);
@@ -27,10 +27,10 @@ namespace CrossPlatformLibrary.Settings.Tests
         public void ShouldThrowArgumentNullExceptionIfKeyIsEmpty()
         {
             // Arrange
-            string settingsKey = string.Empty;
+            string settingsKeyName = string.Empty;
 
             // Act
-            Action action = () => new SettingsProperty<string>(null, settingsKey);
+            Action action = () => new SettingsProperty<string>(null, settingsKeyName);
 
             // Assert
             Assert.Throws<ArgumentNullException>(action);
@@ -41,20 +41,13 @@ namespace CrossPlatformLibrary.Settings.Tests
         {
             // Arrange
             var settingsServiceMock = new Mock<ISettingsService>();
-            string settingsKey = GenerateRandomString(256);
+            string settingsKeyName = RandomUtils.GenerateRandomString(256);
 
             // Act
-            Action action = () => new SettingsProperty<string>(settingsServiceMock.Object, settingsKey);
+            Action action = () => new SettingsProperty<string>(settingsServiceMock.Object, settingsKeyName);
 
             // Assert
             Assert.Throws<ArgumentException>(action);
-        }
-
-        private static string GenerateRandomString(int length)
-        {
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var random = new Random();
-            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

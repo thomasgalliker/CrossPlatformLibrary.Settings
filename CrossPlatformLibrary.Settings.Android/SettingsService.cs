@@ -6,20 +6,41 @@ using Android.Content;
 using Android.Preferences;
 
 using CrossPlatformLibrary.IO;
+using CrossPlatformLibrary.Tracing;
+using CrossPlatformLibrary.Utils;
+
+using TypeConverter;
+using TypeConverter.Extensions;
 
 namespace CrossPlatformLibrary.Settings
 {
     public class SettingsService : ISettingsService
     {
-        private static ISharedPreferences SharedPreferences { get; set; }
-        private static ISharedPreferencesEditor SharedPreferencesEditor { get; set; }
+        private static ISharedPreferences sharedPreferences;
+        private static ISharedPreferencesEditor sharedPreferencesEditor;
 
         private readonly object locker = new object();
+        private readonly ITracer tracer;
+        private readonly IConverterRegistry converterRegistry;
 
-        public SettingsService()
+        public SettingsService(ITracer tracer, IConverterRegistry converterRegistry)
         {
-            SharedPreferences = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
-            SharedPreferencesEditor = SharedPreferences.Edit();
+            Guard.ArgumentNotNull(() => tracer);
+            Guard.ArgumentNotNull(() => converterRegistry);
+
+            this.tracer = tracer;
+            this.converterRegistry = converterRegistry;
+
+            sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+            sharedPreferencesEditor = sharedPreferences.Edit();
+        }
+
+        public IConverterRegistry ConverterRegistry
+        {
+            get
+            {
+                return this.converterRegistry;
+            }
         }
 
         /// <summary>
@@ -33,39 +54,42 @@ namespace CrossPlatformLibrary.Settings
         {
             lock (this.locker)
             {
-                Type typeOf = typeof(T);
-                if (typeOf.IsGenericType && typeOf.GetGenericTypeDefinition() == typeof(Nullable<>))
+                var typeOf = typeof(T);
+                if (typeOf.IsNullable())
                 {
                     typeOf = Nullable.GetUnderlyingType(typeOf);
                 }
 
                 object value = null;
                 var typeCode = Type.GetTypeCode(typeOf);
+
                 switch (typeCode)
                 {
-                    case TypeCode.Decimal:
-                        value = (decimal)SharedPreferences.GetLong(key, (long)Convert.ToDecimal(defaultValue, CultureInfo.InvariantCulture));
-                        break;
                     case TypeCode.Boolean:
-                        value = SharedPreferences.GetBoolean(key, Convert.ToBoolean(defaultValue));
+                        value = sharedPreferences.GetBoolean(key, Convert.ToBoolean(defaultValue));
                         break;
                     case TypeCode.Int64:
-                        value = (Int64)SharedPreferences.GetLong(key, (long)Convert.ToInt64(defaultValue, CultureInfo.InvariantCulture));
+                        value = sharedPreferences.GetLong(key, Convert.ToInt64(defaultValue, CultureInfo.InvariantCulture));
                         break;
                     case TypeCode.String:
-                        value = SharedPreferences.GetString(key, Convert.ToString(defaultValue));
+                        value = sharedPreferences.GetString(key, Convert.ToString(defaultValue));
                         break;
                     case TypeCode.Double:
-                        value = (double)SharedPreferences.GetLong(key, (long)Convert.ToDouble(defaultValue, CultureInfo.InvariantCulture));
+                        value = sharedPreferences.GetString(key, Convert.ToString(defaultValue));
+                        value = Convert.ToDouble(value);
+                        break;
+                    case TypeCode.Decimal:
+                        value = sharedPreferences.GetString(key, Convert.ToString(defaultValue));
+                        value = Convert.ToDecimal(value);
                         break;
                     case TypeCode.Int32:
-                        value = SharedPreferences.GetInt(key, Convert.ToInt32(defaultValue, CultureInfo.InvariantCulture));
+                        value = sharedPreferences.GetInt(key, Convert.ToInt32(defaultValue, CultureInfo.InvariantCulture));
                         break;
                     case TypeCode.Single:
-                        value = SharedPreferences.GetFloat(key, Convert.ToSingle(defaultValue, CultureInfo.InvariantCulture));
+                        value = sharedPreferences.GetFloat(key, Convert.ToSingle(defaultValue, CultureInfo.InvariantCulture));
                         break;
                     case TypeCode.DateTime:
-                        var ticks = SharedPreferences.GetLong(key, -1);
+                        var ticks = sharedPreferences.GetLong(key, -1);
                         if (ticks == -1)
                         {
                             value = defaultValue;
@@ -80,13 +104,13 @@ namespace CrossPlatformLibrary.Settings
                         if (defaultValue is Guid)
                         {
                             Guid outGuid;
-                            Guid.TryParse(SharedPreferences.GetString(key, Guid.Empty.ToString()), out outGuid);
+                            Guid.TryParse(sharedPreferences.GetString(key, Guid.Empty.ToString()), out outGuid);
                             value = outGuid;
                         }
                         else
                         {
                             value = defaultValue;
-                            var serializedString = SharedPreferences.GetString(key, string.Empty);
+                            var serializedString = sharedPreferences.GetString(key, string.Empty);
                             if (!string.IsNullOrEmpty(serializedString))
                             {
                                 value = serializedString.DeserializeFromXml<T>();
@@ -108,52 +132,49 @@ namespace CrossPlatformLibrary.Settings
         {
             lock (this.locker)
             {
-                Type typeOf = value.GetType();
-                if (typeOf.IsGenericType && typeOf.GetGenericTypeDefinition() == typeof(Nullable<>))
+                var typeOf = typeof(T);
+                if (typeOf.IsNullable())
                 {
                     typeOf = Nullable.GetUnderlyingType(typeOf);
                 }
+
                 var typeCode = Type.GetTypeCode(typeOf);
                 switch (typeCode)
                 {
-                    case TypeCode.Decimal:
-                        SharedPreferencesEditor.PutLong(key, (long)Convert.ToDecimal(value, CultureInfo.InvariantCulture));
-                        break;
                     case TypeCode.Boolean:
-                        SharedPreferencesEditor.PutBoolean(key, Convert.ToBoolean(value));
+                        sharedPreferencesEditor.PutBoolean(key, Convert.ToBoolean(value));
                         break;
                     case TypeCode.Int64:
-                        SharedPreferencesEditor.PutLong(key, (long)Convert.ToInt64(value, CultureInfo.InvariantCulture));
+                        sharedPreferencesEditor.PutLong(key, Convert.ToInt64(value, CultureInfo.InvariantCulture));
                         break;
                     case TypeCode.String:
-                        SharedPreferencesEditor.PutString(key, Convert.ToString(value));
-                        break;
                     case TypeCode.Double:
-                        SharedPreferencesEditor.PutLong(key, (long)Convert.ToDouble(value, CultureInfo.InvariantCulture));
+                    case TypeCode.Decimal:
+                        sharedPreferencesEditor.PutString(key, Convert.ToString(value));
                         break;
                     case TypeCode.Int32:
-                        SharedPreferencesEditor.PutInt(key, Convert.ToInt32(value, CultureInfo.InvariantCulture));
+                        sharedPreferencesEditor.PutInt(key, Convert.ToInt32(value, CultureInfo.InvariantCulture));
                         break;
                     case TypeCode.Single:
-                        SharedPreferencesEditor.PutFloat(key, Convert.ToSingle(value, CultureInfo.InvariantCulture));
+                        sharedPreferencesEditor.PutFloat(key, Convert.ToSingle(value, CultureInfo.InvariantCulture));
                         break;
                     case TypeCode.DateTime:
-                        SharedPreferencesEditor.PutLong(key, ((DateTime)(object)value).Ticks);
+                        sharedPreferencesEditor.PutLong(key, ((DateTime)(object)value).Ticks);
                         break;
                     default:
                         if (value is Guid)
                         {
-                            SharedPreferencesEditor.PutString(key, value.ToString());
+                            sharedPreferencesEditor.PutString(key, value.ToString());
                         }
                         else
                         {
                             string serialized = value.SerializeToXml();
-                            SharedPreferencesEditor.PutString(key, serialized);
+                            sharedPreferencesEditor.PutString(key, serialized);
                         }
                         break;
                 }
 
-                SharedPreferencesEditor.Commit();
+                sharedPreferencesEditor.Commit();
             }
         }
     }

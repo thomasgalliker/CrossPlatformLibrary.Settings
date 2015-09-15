@@ -4,6 +4,11 @@ using CrossPlatformLibrary.IO;
 
 using System;
 using System.Globalization;
+
+using CrossPlatformLibrary.Tracing;
+
+using TypeConverter;
+using TypeConverter.Extensions;
 #if __UNIFIED__
 using Foundation;
 #else
@@ -15,14 +20,26 @@ namespace CrossPlatformLibrary.Settings
     public class SettingsService : ISettingsService
     {
         private readonly object locker = new object();
+        private readonly ITracer tracer;
+        private readonly IConverterRegistry converterRegistry;
 
-        /// <summary>
-        ///     Gets the current value or the default that you specify.
-        /// </summary>
-        /// <typeparam name="T">Vaue of t (bool, int, float, long, string)</typeparam>
-        /// <param name="key">Key for settings</param>
-        /// <param name="defaultValue">default value if not set</param>
-        /// <returns>Value or default</returns>
+        public SettingsService(ITracer tracer, IConverterRegistry converterRegistry)
+        {
+            Guard.ArgumentNotNull(() => tracer);
+            Guard.ArgumentNotNull(() => converterRegistry);
+
+            this.tracer = tracer;
+            this.converterRegistry = converterRegistry;
+        }
+
+        public IConverterRegistry ConverterRegistry
+        {
+            get
+            {
+                return this.converterRegistry;
+            }
+        }
+
         public T GetValueOrDefault<T>(string key, T defaultValue = default(T))
         {
             Guard.ArgumentNotNullOrEmpty(() => key);
@@ -36,11 +53,12 @@ namespace CrossPlatformLibrary.Settings
                     return defaultValue;
                 }
 
-                Type typeOf = typeof(T);
-                if (typeOf.IsGenericType && typeOf.GetGenericTypeDefinition() == typeof(Nullable<>))
+                var typeOf = typeof(T);
+                if (typeOf.IsNullable())
                 {
                     typeOf = Nullable.GetUnderlyingType(typeOf);
                 }
+
                 object value = null;
                 var typeCode = Type.GetTypeCode(typeOf);
                 switch (typeCode)
@@ -126,8 +144,8 @@ namespace CrossPlatformLibrary.Settings
         {
             Guard.ArgumentNotNullOrEmpty(() => key);
 
-            Type typeOf = typeof(T);
-            if (typeOf.IsGenericType && typeOf.GetGenericTypeDefinition() == typeof(Nullable<>))
+            var typeOf = typeof(T);
+            if (typeOf.IsNullable())
             {
                 typeOf = Nullable.GetUnderlyingType(typeOf);
             }
