@@ -20,8 +20,6 @@
     <copyright>Copyright 2015</copyright>
     <language>en-US</language>
     <dependencies>
-
-      <!--TypeConverter-->
       <group targetFramework="monotouch10">
         <dependency id="TypeConverter" version="1.0.14" />
         <dependency id="CrossPlatformLibrary" />
