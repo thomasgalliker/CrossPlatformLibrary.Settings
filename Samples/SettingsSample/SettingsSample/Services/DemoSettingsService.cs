@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CrossPlatformLibrary.Settings;
-using CrossPlatformLibrary.Utils;
+using Guards;
 
 using SettingsSample.Model;
 

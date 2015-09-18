@@ -2,7 +2,7 @@
 using System.Globalization;
 using CrossPlatformLibrary.IO;
 using CrossPlatformLibrary.Tracing;
-using CrossPlatformLibrary.Utils;
+using Guards;
 using TypeConverter;
 using Windows.Storage;
 

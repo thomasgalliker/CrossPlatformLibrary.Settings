@@ -7,7 +7,7 @@ using Android.Preferences;
 
 using CrossPlatformLibrary.IO;
 using CrossPlatformLibrary.Tracing;
-using CrossPlatformLibrary.Utils;
+using Guards;
 
 using TypeConverter;
 using TypeConverter.Extensions;
