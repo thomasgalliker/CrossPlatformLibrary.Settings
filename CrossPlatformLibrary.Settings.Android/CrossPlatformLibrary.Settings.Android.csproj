@@ -59,8 +59,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
-    <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=08c6ba4d2c447b3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeConverter.1.0.18\lib\MonoAndroid10\TypeConverter.dll</HintPath>
+    <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
+      <HintPath>..\packages\TypeConverter.1.0.21\lib\MonoAndroid10\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

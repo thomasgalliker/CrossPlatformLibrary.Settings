@@ -54,11 +54,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PlatformAdapter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6631b0d7444ed877, processorArchitecture=MSIL">
-      <HintPath>..\packages\CrossPlatformAdapter.1.0.10\lib\portable-net45+wp8+wpa81+win81+netcore45+monoandroid1+xamarin.ios10\PlatformAdapter.dll</HintPath>
+      <HintPath>..\packages\CrossPlatformAdapter.1.0.12\lib\portable-net45+wp8+wpa81+win81+netcore45+monoandroid1+xamarin.ios10\PlatformAdapter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=08c6ba4d2c447b3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeConverter.1.0.18\lib\portable-net45+wp8+wpa81+netcore45+monoandroid1+xamarin.ios10\TypeConverter.dll</HintPath>
+    <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
+      <HintPath>..\packages\TypeConverter.1.0.21\lib\portable-net45+wp8+wpa81+win81+netcore45+monoandroid1+xamarin.ios10\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

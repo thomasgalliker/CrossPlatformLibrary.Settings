@@ -114,8 +114,8 @@
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=08c6ba4d2c447b3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeConverter.1.0.18\lib\wp8\TypeConverter.dll</HintPath>
+    <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
+      <HintPath>..\packages\TypeConverter.1.0.21\lib\wp8\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
