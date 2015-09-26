@@ -5,12 +5,12 @@ using Android.App;
 using Android.Content;
 using Android.Preferences;
 
+using CrossPlatformLibrary.Extensions;
 using CrossPlatformLibrary.IO;
 using CrossPlatformLibrary.Tracing;
 using Guards;
 
 using TypeConverter;
-using TypeConverter.Extensions;
 
 namespace CrossPlatformLibrary.Settings
 {

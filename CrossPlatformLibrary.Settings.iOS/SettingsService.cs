@@ -5,6 +5,7 @@ using CrossPlatformLibrary.IO;
 using System;
 using System.Globalization;
 
+using CrossPlatformLibrary.Extensions;
 using CrossPlatformLibrary.Tracing;
 
 using TypeConverter;
