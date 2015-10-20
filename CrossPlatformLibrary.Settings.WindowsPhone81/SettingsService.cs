@@ -39,15 +39,20 @@ namespace CrossPlatformLibrary.Settings
             }
         }
 
-        // TODO GATH: All of these types are supported https://msdn.microsoft.com/en-us/library/windows/apps/br205768.aspx
         public T GetValueOrDefault<T>(string key, T defaultValue = default(T))
         {
+            Guard.ArgumentNotNullOrEmpty(() => key);
+
+            var type = typeof(T);
+            this.tracer.Debug("GetValueOrDefault for key={0}, type={1}.", key, type);
             object value = defaultValue;
 
             lock (this.locker)
             {
-                if (IsWindowsRuntimeType(typeof(T)))
+                if (IsWindowsRuntimeType(type))
                 {
+                    // All of these types are supported by WinRT: https://msdn.microsoft.com/en-us/library/windows/apps/br205768.aspx
+                    // The rest of it must be converted
                     value = this.GetValueOrDefaultFunction(key, defaultValue);
                 }
                 else if (value is decimal)
@@ -98,9 +103,12 @@ namespace CrossPlatformLibrary.Settings
         {
             Guard.ArgumentNotNull(() => value);
 
+            var type = typeof(T);
+            this.tracer.Debug("AddOrUpdateValue for key={0}, type={1}.", key, type);
+
             lock (this.locker)
             {
-                if (IsWindowsRuntimeType(typeof(T)))
+                if (IsWindowsRuntimeType(type))
                 {
                     this.AddOrUpdateFunction(key, value);
                 }

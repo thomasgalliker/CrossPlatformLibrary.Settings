@@ -173,19 +173,19 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
             migrationResult.To.Should().Be(originalValue.ToString());
         }
 
-        ////[Fact]
-        ////public void ShouldMigrateIntegerToDouble()
-        ////{
-        ////    // Arrange
-        ////    int originalValue = 999;
+        [Fact]
+        public void ShouldMigrateIntegerToDouble()
+        {
+            // Arrange
+            int originalValue = 999;
 
-        ////    // Act
-        ////    var migrationResult = this.MigrateSetting<int, double>(originalValue);
+            // Act
+            var migrationResult = this.MigrateSetting<int, double>(originalValue);
 
-        ////    // Assert
-        ////    migrationResult.From.Should().Be(originalValue);
-        ////    migrationResult.To.Should().Be(originalValue);
-        ////}
+            // Assert
+            migrationResult.From.Should().Be(originalValue);
+            migrationResult.To.Should().Be(originalValue);
+        }
 
         private MigrationResult<TFrom, TTo> MigrateSetting<TFrom, TTo>(TFrom from)
         {

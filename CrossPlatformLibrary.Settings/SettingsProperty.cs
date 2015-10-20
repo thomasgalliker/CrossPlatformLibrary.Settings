@@ -20,7 +20,7 @@ namespace CrossPlatformLibrary.Settings
         {
             Guard.ArgumentNotNull(() => settingsService);
             Guard.ArgumentNotNullOrEmpty(() => key);
-            Guard.ArgumentMustNotExceed(() => key, 255);
+            Guard.ArgumentHasMaxLength(() => key, 255);
 
             this.settingsService = settingsService;
             this.key = key;
