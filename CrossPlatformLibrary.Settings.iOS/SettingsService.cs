@@ -9,7 +9,7 @@ using CrossPlatformLibrary.Extensions;
 using CrossPlatformLibrary.Tracing;
 
 using TypeConverter;
-using TypeConverter.Extensions;
+
 #if __UNIFIED__
 using Foundation;
 #else
