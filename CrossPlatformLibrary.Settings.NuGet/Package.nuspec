@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>CrossPlatformLibrary.Settings</id>
-    <version>1.0.26-pre1</version>
+    <version>1.0.26-pre2</version>
     <title>CrossPlatformLibrary.Settings</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -16,42 +16,15 @@
       windows phone winphone wp8 wpa81 win81 windowsphone android xamarin.forms xamarin.ios ios monoandroid monodroid monotouch mvvmcross mvvmlight
     </tags>
     <releaseNotes>
+      1.0.26-pre2
+      - Added support for Universal Windows Platform (UWP)
+      
     </releaseNotes>
     <copyright>Copyright 2016</copyright>
     <language>en-US</language>
     <dependencies>
-      <group targetFramework="monotouch10">
-        <dependency id="Guards" version="1.0.10"/>
-        <dependency id="TypeConverter" version="1.0.25"/>
-        <dependency id="CrossPlatformLibrary" version="1.0.71" />
-      </group>
-      <group targetFramework="xamarin.ios10">
-        <dependency id="Guards" version="1.0.10"/>
-        <dependency id="TypeConverter" version="1.0.25"/>
-        <dependency id="CrossPlatformLibrary" version="1.0.71" />
-      </group>
-      <group targetFramework="monoandroid10">
-        <dependency id="Guards" version="1.0.10"/>
-        <dependency id="TypeConverter" version="1.0.25"/>
-        <dependency id="CrossPlatformLibrary" version="1.0.71" />
-      </group>
-      <group targetFramework="wp8">
-        <dependency id="Guards" version="1.0.10"/>
-        <dependency id="TypeConverter" version="1.0.25"/>
-        <dependency id="CrossPlatformLibrary" version="1.0.71" />
-      </group>
-      <group targetFramework="wpa81">
-        <dependency id="Guards" version="1.0.10"/>
-        <dependency id="TypeConverter" version="1.0.25"/>
-        <dependency id="CrossPlatformLibrary" version="1.0.71" />
-      </group>
-      <group targetFramework="win81">
-        <dependency id="Guards" version="1.0.10"/>
-        <dependency id="TypeConverter" version="1.0.25"/>
-        <dependency id="CrossPlatformLibrary" version="1.0.71" />
-      </group>
-      <group targetFramework="portable-net45+dnxcore50+wp80+MonoAndroid10+xamarinios10+MonoTouch10">
-        <dependency id="Guards" version="1.0.10"/>
+      <group>
+        <dependency id="Guards" version="1.0.10" />
         <dependency id="TypeConverter" version="1.0.25"/>
         <dependency id="CrossPlatformLibrary" version="1.0.71" />
       </group>
@@ -110,7 +83,15 @@
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\win81\CrossPlatformLibrary.Settings.dll" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\win81\CrossPlatformLibrary.Settings.pdb" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\win81\CrossPlatformLibrary.Settings.xml" />
-    
+
+    <!--Universal Windows Platform-->
+    <file src="..\CrossPlatformLibrary.Settings.UWP\bin\Release\CrossPlatformLibrary.Settings.Platform.dll" target="lib\uap10.0\CrossPlatformLibrary.Settings.Platform.dll" />
+    <file src="..\CrossPlatformLibrary.Settings.UWP\bin\Release\CrossPlatformLibrary.Settings.Platform.pdb" target="lib\uap10.0\CrossPlatformLibrary.Settings.Platform.pdb" />
+    <file src="..\CrossPlatformLibrary.Settings.UWP\bin\Release\CrossPlatformLibrary.Settings.Platform.xml" target="lib\uap10.0\CrossPlatformLibrary.Settings.Platform.xml" />
+    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\win81\CrossPlatformLibrary.Settings.dll" />
+    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\win81\CrossPlatformLibrary.Settings.pdb" />
+    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\win81\CrossPlatformLibrary.Settings.xml" />
+
     <file src="tools\init.ps1" target="tools\init.ps1" />
     <file src="tools\install.ps1" target="tools\install.ps1" />
     <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
