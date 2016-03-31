@@ -111,7 +111,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeConverter.1.0.25\lib\wpa81\TypeConverter.dll</HintPath>
+      <HintPath>..\packages\TypeConverter.1.0.26\lib\wpa81\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

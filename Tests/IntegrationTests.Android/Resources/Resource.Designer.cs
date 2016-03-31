@@ -48,6 +48,8 @@ namespace IntegrationTests.Android
 			global::Xamarin.Android.NUnitLite.Resource.Layout.results = global::IntegrationTests.Android.Resource.Layout.results;
 			global::Xamarin.Android.NUnitLite.Resource.Layout.test_result = global::IntegrationTests.Android.Resource.Layout.test_result;
 			global::Xamarin.Android.NUnitLite.Resource.Layout.test_suite = global::IntegrationTests.Android.Resource.Layout.test_suite;
+			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::IntegrationTests.Android.Resource.String.ApplicationName;
+			global::Xamarin.Forms.Platform.Resource.String.Hello = global::IntegrationTests.Android.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
