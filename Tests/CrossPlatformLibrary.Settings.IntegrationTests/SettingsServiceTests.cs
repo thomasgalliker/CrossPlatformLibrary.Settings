@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using CrossPlatformLibrary.Bootstrapping;
 using CrossPlatformLibrary.IoC;
 using CrossPlatformLibrary.Settings.IntegrationTests.Stubs;
 
@@ -15,10 +16,66 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
     [Collection("SettingsService")]
     public class SettingsServiceTests
     {
+        private static Bootstrapper bootstrapper;
+
         public SettingsServiceTests()
         {
+            if (SimpleIoc.Default.IsRegistered<ISettingsService>() == false)
+            {
+                bootstrapper = new Bootstrapper();
+                bootstrapper.Startup();
+            }
+
             ////var settingsService = SimpleIoc.Default.GetInstance<ISettingsService>();
             ////settingsService.RemoveAll();
+        }
+
+        /*
+        
+                   type == typeof(byte) ||
+                   type == typeof(char) ||
+                   type == typeof(DateTimeOffset) ||
+                   type == typeof(ushort) ||
+                   type == typeof(ulong) ||
+            */
+
+        [Fact]
+        public void ShouldReadWriteBool()
+        {
+            // Arrange
+            bool inputValue = true;
+
+            // Act
+            var outputValue = ReadWriteValueOfType(inputValue);
+
+            // Assert
+            outputValue.Should().Be(inputValue);
+        }
+
+        [Fact]
+        public void ShouldReadWriteByte()
+        {
+            // Arrange
+            byte inputValue = byte.MaxValue;
+
+            // Act
+            var outputValue = ReadWriteValueOfType(inputValue);
+
+            // Assert
+            outputValue.Should().Be(inputValue);
+        }
+
+        [Fact]
+        public void ShouldReadWriteUri()
+        {
+            // Arrange
+            Uri inputValue = new Uri("http://www.thomasgalliker.ch");
+
+            // Act
+            var outputValue = ReadWriteValueOfType(inputValue);
+
+            // Assert
+            outputValue.Should().Be(inputValue);
         }
 
         [Fact]
@@ -26,19 +83,58 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         {
             // Arrange
             Guid inputValue = Guid.NewGuid();
-            
+
             // Act
             var outputValue = ReadWriteValueOfType(inputValue);
 
             // Assert
             outputValue.Should().Be(inputValue);
         }
-        
+
+        [Fact]
+        public void ShouldReadWriteShort()
+        {
+            // Arrange
+            short inputValue = short.MaxValue;
+
+            // Act
+            var outputValue = ReadWriteValueOfType(inputValue);
+
+            // Assert
+            outputValue.Should().Be(inputValue);
+        }
+
         [Fact]
         public void ShouldReadWriteInt()
         {
             // Arrange
             int inputValue = 999;
+
+            // Act
+            var outputValue = ReadWriteValueOfType(inputValue);
+
+            // Assert
+            outputValue.Should().Be(inputValue);
+        }
+
+        [Fact]
+        public void ShouldReadWriteUInt()
+        {
+            // Arrange
+            uint inputValue = uint.MaxValue;
+
+            // Act
+            var outputValue = ReadWriteValueOfType(inputValue);
+
+            // Assert
+            outputValue.Should().Be(inputValue);
+        }
+
+        [Fact]
+        public void ShouldReadWriteLong()
+        {
+            // Arrange
+            long inputValue = long.MaxValue;
 
             // Act
             var outputValue = ReadWriteValueOfType(inputValue);
@@ -100,10 +196,23 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         }
 
         [Fact]
-        public void ShouldReadWriteDateTime()
+        public void ShouldReadWriteDateTimeAsUniversalTime()
         {
             // Arrange
-            var inputValue = DateTime.Now;
+            var inputValue = DateTime.Now.ToLocalTime();
+
+            // Act
+            var outputValue = ReadWriteValueOfType(inputValue);
+
+            // Assert
+            outputValue.Ticks.Should().Be(inputValue.Ticks);
+        }
+
+        [Fact]
+        public void ShouldReadWriteDateTimeAsLocalTime()
+        {
+            // Arrange
+            var inputValue = DateTime.Now.ToUniversalTime();
 
             // Act
             var outputValue = ReadWriteValueOfType(inputValue);
@@ -143,11 +252,7 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         [Fact]
         public void ShouldReadWriteList()
         {
-            IEnumerable<Person> personList = new List<Person>
-            {
-                new Person { Name = "Person1", Age = 77 },
-                new Person { Name = "Person2", Age = 88 },
-            };
+            IEnumerable<Person> personList = new List<Person> { new Person { Name = "Person1", Age = 77 }, new Person { Name = "Person2", Age = 88 }, };
 
             var outputValue = ReadWriteValueOfType(personList);
 
@@ -159,6 +264,7 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         }
 
         #region Migration Tests
+
         [Fact]
         public void ShouldMigrateGuidToString()
         {
@@ -198,6 +304,7 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
 
             return new MigrationResult<TFrom, TTo>(originalValue, migratedValue);
         }
+
         #endregion
 
         private static T ReadWriteValueOfType<T>(T inputValue, string key = null)

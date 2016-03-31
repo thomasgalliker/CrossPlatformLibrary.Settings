@@ -1,16 +1,8 @@
 ﻿
-using TypeConverter;
-
 namespace CrossPlatformLibrary.Settings
 {
     public interface ISettingsService
     {
-        /// <summary>
-        /// ConverterRegistry can be used to define type converters which
-        /// may be used to migrate settings.
-        /// </summary>
-        IConverterRegistry ConverterRegistry { get; }
-
         /// <summary>
         ///     Gets the value for a specified key or the default (if key not found).
         /// </summary>
