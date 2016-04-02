@@ -104,13 +104,12 @@ namespace CrossPlatformLibrary.Settings
         {
             Guard.ArgumentNotNullOrEmpty(() => key);
 
-            var type = typeof(T);
-            this.tracer.Debug("GetValueOrDefault for key={0}, type={1}.", key, type);
+            var typeOf = typeof(T);
+            this.tracer.Debug("GetValueOrDefault for key={0}, type={1}.", key, typeOf.GetFormattedName());
             object value = defaultValue;
 
             lock (this.locker)
             {
-                var typeOf = typeof(T);
                 if (typeOf.IsNullable())
                 {
                     typeOf = Nullable.GetUnderlyingType(typeOf);
