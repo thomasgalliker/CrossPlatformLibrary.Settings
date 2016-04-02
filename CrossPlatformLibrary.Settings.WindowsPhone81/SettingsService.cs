@@ -6,6 +6,8 @@ using Guards;
 using TypeConverter;
 using Windows.Storage;
 
+using CrossPlatformLibrary.Extensions;
+
 namespace CrossPlatformLibrary.Settings
 {
     public class SettingsService : ISettingsService // TODO GATH: Test & verify if feature-complete compared to other SettingsServices
@@ -44,18 +46,23 @@ namespace CrossPlatformLibrary.Settings
             Guard.ArgumentNotNullOrEmpty(() => key);
 
             var type = typeof(T);
-            this.tracer.Debug("GetValueOrDefault for key={0}, type={1}.", key, type);
+            this.tracer.Debug("GetValueOrDefault for key={0}, type={1}.", key, type.GetFormattedName());
             object value = defaultValue;
 
             lock (this.locker)
             {
+                if (type.IsNullable())
+                {
+                    type = Nullable.GetUnderlyingType(type);
+                }
+
                 if (IsWindowsRuntimeType(type))
                 {
                     // All of these types are supported by WinRT: https://msdn.microsoft.com/en-us/library/windows/apps/br205768.aspx
                     // The rest of it must be converted
                     value = this.GetValueOrDefaultFunction(key, defaultValue);
                 }
-                else if (value is decimal)
+                else if (type == typeof(decimal))
                 {
                     var savedDecimal = this.GetValueOrDefaultFunction<string>(key, null);
                     if (savedDecimal != null)
@@ -63,13 +70,19 @@ namespace CrossPlatformLibrary.Settings
                         value = Convert.ToDecimal(savedDecimal, CultureInfo.InvariantCulture);
                     }
                 }
-                else if (value is DateTime)
+                else if (type == typeof(DateTime))
                 {
-                    var ticks = this.GetValueOrDefaultFunction<long>(key, -1);
-                    if (ticks != -1)
+                    var stringDateTime = this.GetValueOrDefaultFunction<string>(key, null);
+                    var serializableDateTime = stringDateTime.DeserializeFromXml<SerializableDateTime>();
+                    if (serializableDateTime != SerializableDateTime.Undefined)
                     {
-                        value = new DateTime(ticks);
+                        value = new DateTime(serializableDateTime.Ticks, serializableDateTime.Kind);
                     }
+                }
+                else if (type == typeof(Uri))
+                {
+                    string uriString = this.GetValueOrDefaultFunction<string>(key, null);
+                    value = new Uri(uriString);
                 }
                 else
                 {
@@ -103,28 +116,40 @@ namespace CrossPlatformLibrary.Settings
         {
             Guard.ArgumentNotNull(() => value);
 
-            var type = typeof(T);
-            this.tracer.Debug("AddOrUpdateValue for key={0}, type={1}.", key, type);
-
             lock (this.locker)
             {
-                if (IsWindowsRuntimeType(type))
+                var typeOf = typeof(T);
+                if (typeOf.IsNullable())
+                {
+                    typeOf = Nullable.GetUnderlyingType(typeOf);
+                }
+
+                this.tracer.Debug("AddOrUpdateValue for key={0}, type={1}.", key, typeOf);
+
+                if (IsWindowsRuntimeType(typeOf))
                 {
                     this.AddOrUpdateFunction(key, value);
                 }
-                else if (value is decimal)
+                else if (typeOf == typeof(decimal))
                 {
-                    var decimalString = value.ToString();
+                    string decimalString = Convert.ToString(value, CultureInfo.InvariantCulture);
                     this.AddOrUpdateFunction(key, decimalString);
                 }
-                else if (value is DateTime)
+                else if (typeOf == typeof(DateTime))
                 {
-                    long ticks = Convert.ToDateTime(value).Ticks;
-                    this.AddOrUpdateFunction(key, ticks);
+                    var dateTime = Convert.ToDateTime(value, CultureInfo.InvariantCulture);
+                    SerializableDateTime serializableDateTime = SerializableDateTime.FromDateTime(dateTime);
+                    string stringDateTime = serializableDateTime.SerializeToXml(preserveTypeInformation: true);
+                    this.AddOrUpdateFunction(key, stringDateTime);
+                }
+                else if (typeOf == typeof(Uri))
+                {
+                    string uriString = value.ToString();
+                    this.AddOrUpdateFunction(key, uriString);
                 }
                 else
                 {
-                    string serializedString = value.SerializeToXml();
+                    string serializedString = value.SerializeToXml(preserveTypeInformation: true);
                     this.AddOrUpdateFunction(key, serializedString);
                 }
             }
@@ -146,7 +171,6 @@ namespace CrossPlatformLibrary.Settings
                    type == typeof(string) ||
                    type == typeof(uint) ||
                    type == typeof(ulong) ||
-                   type == typeof(Uri) ||
                    type == typeof(int);
         }
 
