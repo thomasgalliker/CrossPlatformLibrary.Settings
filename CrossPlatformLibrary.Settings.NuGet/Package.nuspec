@@ -18,8 +18,8 @@
     <releaseNotes>
       1.0.26-pre3
       - Added support for Universal Windows Platform (UWP)
-      - Bug fixes in WinRT platform support
-      
+      - Update SettingsService of WinRT platforms to support Nullable and DateTime types
+
     </releaseNotes>
     <copyright>Copyright 2016</copyright>
     <language>en-US</language>
