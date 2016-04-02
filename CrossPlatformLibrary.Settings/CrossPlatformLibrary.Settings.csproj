@@ -60,7 +60,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeConverter.1.0.26\lib\portable-net45+wp8+wpa81+win81+netcore45+monoandroid1+xamarin.ios10\TypeConverter.dll</HintPath>
+      <HintPath>..\packages\TypeConverter.1.0.27\lib\portable-net45+wp8+wpa81+win81+netcore45+monoandroid1+xamarin.ios10\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
