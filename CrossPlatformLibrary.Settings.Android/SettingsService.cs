@@ -8,6 +8,7 @@ using Android.Preferences;
 using CrossPlatformLibrary.Extensions;
 using CrossPlatformLibrary.IO;
 using CrossPlatformLibrary.Tracing;
+
 using Guards;
 
 using TypeConverter;
@@ -35,23 +36,85 @@ namespace CrossPlatformLibrary.Settings
             sharedPreferencesEditor = sharedPreferences.Edit();
         }
 
-        public IConverterRegistry ConverterRegistry
-        {
-            get
-            {
-                return this.converterRegistry;
-            }
-        }
-
-        /// <summary>
-        ///     Gets the current value or the default that you specify.
-        /// </summary>
-        /// <typeparam name="T">Vaue of t (bool, int, float, long, string)</typeparam>
-        /// <param name="key">Key for settings</param>
-        /// <param name="defaultValue">default value if not set</param>
-        /// <returns>Value or default</returns>
         public T GetValueOrDefault<T>(string key, T defaultValue = default(T))
         {
+            Guard.ArgumentNotNullOrEmpty(() => key);
+
+            var typeOf = typeof(T);
+            this.tracer.Debug("GetValueOrDefault for key={0}, type={1}.", key, typeOf.GetFormattedName());
+            object value = defaultValue;
+
+            lock (this.locker)
+            {
+                if (typeOf.IsNullable())
+                {
+                    typeOf = Nullable.GetUnderlyingType(typeOf);
+                }
+
+                if ((typeOf == typeof(string)) || (typeOf == typeof(double)) || (typeOf == typeof(float)) || (typeOf == typeof(Guid)) || (typeOf == typeof(bool)) || (typeOf == typeof(int))
+                    || (typeOf == typeof(long)) || (typeOf == typeof(byte)))
+                {
+                    value = this.GetValueOrDefaultFunction(key, defaultValue);
+                }
+
+                else if (typeOf == typeof(decimal))
+                {
+                    var savedDecimal = this.GetValueOrDefaultFunction<string>(key, null);
+                    if (savedDecimal != null)
+                    {
+                        value = Convert.ToDecimal(savedDecimal, CultureInfo.InvariantCulture);
+                    }
+                }
+                else if (typeOf == typeof(DateTime))
+                {
+                    var stringDateTime = this.GetValueOrDefaultFunction<string>(key, null);
+                    var serializableDateTime = stringDateTime.DeserializeFromXml<SerializableDateTime>();
+                    if (serializableDateTime != SerializableDateTime.Undefined)
+                    {
+                        value = new DateTime(serializableDateTime.Ticks, serializableDateTime.Kind);
+                    }
+                }
+                else if (typeOf == typeof(Uri))
+                {
+                    string uriString = this.GetValueOrDefaultFunction<string>(key, null);
+                    value = new Uri(uriString);
+                }
+                else
+                {
+                    var savedObject = this.GetValueOrDefaultFunction<string>(key, null);
+                    if (savedObject != null)
+                    {
+                        value = Convert.ToString(savedObject).DeserializeFromXml<T>();
+                    }
+                }
+            }
+
+            return null != value ? (T)value : defaultValue;
+        }
+
+        private T GetValueOrDefaultFunction<T>(string key, T defaultValue)
+        {
+            T value = defaultValue;
+
+            var settingsValue = sharedPreferences.GetString(key, null);
+            if (settingsValue != null)
+            {
+                value = this.converterRegistry.TryConvert(settingsValue, defaultValue);
+            }
+
+            return value;
+        }
+
+        public void AddOrUpdateValue<T>(string key, T value)
+        {
+            Guard.ArgumentNotNullOrEmpty(() => key);
+            Guard.ArgumentNotNull(() => value);
+
+            ////if (value == null) // TODO: Base class for all implementations!
+            ////{
+            ////    this.Remove(key);
+            ////}
+
             lock (this.locker)
             {
                 var typeOf = typeof(T);
@@ -60,120 +123,50 @@ namespace CrossPlatformLibrary.Settings
                     typeOf = Nullable.GetUnderlyingType(typeOf);
                 }
 
-                object value = null;
-                var typeCode = Type.GetTypeCode(typeOf);
+                this.tracer.Debug("AddOrUpdateValue for key={0}, type={1}.", key, typeOf);
 
-                switch (typeCode)
+                if ((typeOf == typeof(string)) || (typeOf == typeof(double)) || (typeOf == typeof(float)) || (typeOf == typeof(Guid)) || (typeOf == typeof(bool)) || (typeOf == typeof(int))
+                    || (typeOf == typeof(long)) || (typeOf == typeof(byte)))
                 {
-                    case TypeCode.Boolean:
-                        value = sharedPreferences.GetBoolean(key, Convert.ToBoolean(defaultValue));
-                        break;
-                    case TypeCode.Int64:
-                        value = sharedPreferences.GetLong(key, Convert.ToInt64(defaultValue, CultureInfo.InvariantCulture));
-                        break;
-                    case TypeCode.String:
-                        value = sharedPreferences.GetString(key, Convert.ToString(defaultValue));
-                        break;
-                    case TypeCode.Double:
-                        value = sharedPreferences.GetString(key, Convert.ToString(defaultValue));
-                        value = Convert.ToDouble(value);
-                        break;
-                    case TypeCode.Decimal:
-                        value = sharedPreferences.GetString(key, Convert.ToString(defaultValue));
-                        value = Convert.ToDecimal(value);
-                        break;
-                    case TypeCode.Int32:
-                        value = sharedPreferences.GetInt(key, Convert.ToInt32(defaultValue, CultureInfo.InvariantCulture));
-                        break;
-                    case TypeCode.Single:
-                        value = sharedPreferences.GetFloat(key, Convert.ToSingle(defaultValue, CultureInfo.InvariantCulture));
-                        break;
-                    case TypeCode.DateTime:
-                        var ticks = sharedPreferences.GetLong(key, -1);
-                        if (ticks == -1)
-                        {
-                            value = defaultValue;
-                        }
-                        else
-                        {
-                            value = new DateTime(ticks);
-                        }
-                        break;
-                    default:
-
-                        if (defaultValue is Guid)
-                        {
-                            Guid outGuid;
-                            Guid.TryParse(sharedPreferences.GetString(key, Guid.Empty.ToString()), out outGuid);
-                            value = outGuid;
-                        }
-                        else
-                        {
-                            value = defaultValue;
-                            var serializedString = sharedPreferences.GetString(key, string.Empty);
-                            if (!string.IsNullOrEmpty(serializedString))
-                            {
-                                value = serializedString.DeserializeFromXml<T>();
-                            }
-                        }
-
-                        break;
+                    this.AddOrUpdateFunction(key, value);
                 }
 
-                return null != value ? (T)value : defaultValue;
+                else if (typeOf == typeof(decimal))
+                {
+                    string decimalString = Convert.ToString(value, CultureInfo.InvariantCulture);
+                    this.AddOrUpdateFunction(key, decimalString);
+                }
+                else if (typeOf == typeof(DateTime))
+                {
+                    var dateTime = Convert.ToDateTime(value, CultureInfo.InvariantCulture);
+                    SerializableDateTime serializableDateTime = SerializableDateTime.FromDateTime(dateTime);
+                    string stringDateTime = serializableDateTime.SerializeToXml(preserveTypeInformation: true);
+                    this.AddOrUpdateFunction(key, stringDateTime);
+                }
+                else if (typeOf == typeof(Uri))
+                {
+                    string uriString = value.ToString();
+                    this.AddOrUpdateFunction(key, uriString);
+                }
+                else
+                {
+                    string serializedString = value.SerializeToXml(preserveTypeInformation: true);
+                    this.AddOrUpdateFunction(key, serializedString);
+                }
             }
         }
 
-        /// <summary>
-        ///     Adds or updates the given value for the given key.
-        /// </summary>
-        /// <returns>True if added or update and you need to save</returns>
-        public void AddOrUpdateValue<T>(string key, T value)
+        private void AddOrUpdateFunction<T>(string key, T value)
+        {
+            sharedPreferencesEditor.PutString(key, value.ToString());
+            sharedPreferencesEditor.Commit();
+        }
+
+        public void Remove(string key)
         {
             lock (this.locker)
             {
-                var typeOf = typeof(T);
-                if (typeOf.IsNullable())
-                {
-                    typeOf = Nullable.GetUnderlyingType(typeOf);
-                }
-
-                var typeCode = Type.GetTypeCode(typeOf);
-                switch (typeCode)
-                {
-                    case TypeCode.Boolean:
-                        sharedPreferencesEditor.PutBoolean(key, Convert.ToBoolean(value));
-                        break;
-                    case TypeCode.Int64:
-                        sharedPreferencesEditor.PutLong(key, Convert.ToInt64(value, CultureInfo.InvariantCulture));
-                        break;
-                    case TypeCode.String:
-                    case TypeCode.Double:
-                    case TypeCode.Decimal:
-                        sharedPreferencesEditor.PutString(key, Convert.ToString(value));
-                        break;
-                    case TypeCode.Int32:
-                        sharedPreferencesEditor.PutInt(key, Convert.ToInt32(value, CultureInfo.InvariantCulture));
-                        break;
-                    case TypeCode.Single:
-                        sharedPreferencesEditor.PutFloat(key, Convert.ToSingle(value, CultureInfo.InvariantCulture));
-                        break;
-                    case TypeCode.DateTime:
-                        sharedPreferencesEditor.PutLong(key, ((DateTime)(object)value).Ticks);
-                        break;
-                    default:
-                        if (value is Guid)
-                        {
-                            sharedPreferencesEditor.PutString(key, value.ToString());
-                        }
-                        else
-                        {
-                            string serialized = value.SerializeToXml();
-                            sharedPreferencesEditor.PutString(key, serialized);
-                        }
-                        break;
-                }
-
+                sharedPreferencesEditor.Remove(key);
                 sharedPreferencesEditor.Commit();
             }
         }
