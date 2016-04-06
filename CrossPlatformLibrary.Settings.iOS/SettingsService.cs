@@ -23,6 +23,7 @@ namespace CrossPlatformLibrary.Settings
         private readonly object locker = new object();
         private readonly ITracer tracer;
         private readonly IConverterRegistry converterRegistry;
+        private readonly NSUserDefaults defaults;
 
         public SettingsService(ITracer tracer, IConverterRegistry converterRegistry)
         {
@@ -31,171 +32,147 @@ namespace CrossPlatformLibrary.Settings
 
             this.tracer = tracer;
             this.converterRegistry = converterRegistry;
-        }
 
-        public IConverterRegistry ConverterRegistry
-        {
-            get
-            {
-                return this.converterRegistry;
-            }
+            this.defaults = NSUserDefaults.StandardUserDefaults;
         }
 
         public T GetValueOrDefault<T>(string key, T defaultValue = default(T))
         {
             Guard.ArgumentNotNullOrEmpty(() => key);
 
+            var typeOf = typeof(T);
+            this.tracer.Debug("GetValueOrDefault for key={0}, type={1}.", key, typeOf.GetFormattedName());
+            object value = defaultValue;
+
             lock (this.locker)
             {
-                var defaults = NSUserDefaults.StandardUserDefaults;
-
-                if (defaults.ValueForKey(new NSString(key)) == null)
+                if (this.defaults.ValueForKey(new NSString(key)) == null)
                 {
                     return defaultValue;
                 }
+                if (typeOf.IsNullable())
+                {
+                    typeOf = Nullable.GetUnderlyingType(typeOf);
+                }
 
+                if ((typeOf == typeof(string)) || (typeOf == typeof(double)) || (typeOf == typeof(float)) || (typeOf == typeof(Guid)) || (typeOf == typeof(bool)) || (typeOf == typeof(int))
+                    || (typeOf == typeof(long)) || (typeOf == typeof(byte)))
+                {
+                    value = this.GetValueOrDefaultFunction(key, defaultValue);
+                }
+
+                else if (typeOf == typeof(decimal))
+                {
+                    var savedDecimal = this.GetValueOrDefaultFunction<string>(key, null);
+                    if (savedDecimal != null)
+                    {
+                        value = Convert.ToDecimal(savedDecimal, CultureInfo.InvariantCulture);
+                    }
+                }
+                else if (typeOf == typeof(DateTime))
+                {
+                    var stringDateTime = this.GetValueOrDefaultFunction<string>(key, null);
+                    var serializableDateTime = stringDateTime.DeserializeFromXml<SerializableDateTime>();
+                    if (serializableDateTime != SerializableDateTime.Undefined)
+                    {
+                        value = new DateTime(serializableDateTime.Ticks, serializableDateTime.Kind);
+                    }
+                }
+                else if (typeOf == typeof(Uri))
+                {
+                    string uriString = this.GetValueOrDefaultFunction<string>(key, null);
+                    value = new Uri(uriString);
+                }
+                else
+                {
+                    var savedObject = this.GetValueOrDefaultFunction<string>(key, null);
+                    if (savedObject != null)
+                    {
+                        value = Convert.ToString(savedObject).DeserializeFromXml<T>();
+                    }
+                }
+            }
+
+            return null != value ? (T)value : defaultValue;
+        }
+
+        private T GetValueOrDefaultFunction<T>(string key, T defaultValue)
+        {
+            T value = defaultValue;
+
+            var settingsValue = this.defaults.StringForKey(key);
+            if (settingsValue != null)
+            {
+                value = this.converterRegistry.TryConvert(settingsValue, defaultValue);
+            }
+
+            return value;
+        }
+
+        public void AddOrUpdateValue<T>(string key, T value)
+        {
+            Guard.ArgumentNotNullOrEmpty(() => key);
+            Guard.ArgumentNotNull(() => value);
+
+            ////if (value == null) // TODO: Base class for all implementations!
+            ////{
+            ////    this.Remove(key);
+            ////}
+
+            lock (this.locker)
+            {
                 var typeOf = typeof(T);
                 if (typeOf.IsNullable())
                 {
                     typeOf = Nullable.GetUnderlyingType(typeOf);
                 }
 
-                object value = null;
-                var typeCode = Type.GetTypeCode(typeOf);
-                switch (typeCode)
+                this.tracer.Debug("AddOrUpdateValue for key={0}, type={1}.", key, typeOf);
+
+                if ((typeOf == typeof(string)) || (typeOf == typeof(double)) || (typeOf == typeof(float)) || (typeOf == typeof(Guid)) || (typeOf == typeof(bool)) || (typeOf == typeof(int))
+                    || (typeOf == typeof(long)) || (typeOf == typeof(byte)))
                 {
-                    case TypeCode.Decimal:
-                        var savedDecimal = defaults.StringForKey(key);
-                        value = Convert.ToDecimal(savedDecimal, CultureInfo.InvariantCulture);
-                        break;
-                    case TypeCode.Boolean:
-                        value = defaults.BoolForKey(key);
-                        break;
-                    case TypeCode.Int64:
-                        var savedInt64 = defaults.StringForKey(key);
-                        value = Convert.ToInt64(savedInt64, CultureInfo.InvariantCulture);
-                        break;
-                    case TypeCode.Double:
-                        value = defaults.DoubleForKey(key);
-                        break;
-                    case TypeCode.String:
-                        value = defaults.StringForKey(key);
-                        break;
-                    case TypeCode.Int32:
-#if __UNIFIED__
-            value = (Int32)defaults.IntForKey(key);
-#else
-                        value = defaults.IntForKey(key);
-#endif
-                        break;
-                    case TypeCode.Single:
-#if __UNIFIED__
-            value = (float)defaults.FloatForKey(key);
-#else
-                        value = defaults.FloatForKey(key);
-#endif
-                        break;
-
-                    case TypeCode.DateTime:
-                        var savedTime = defaults.StringForKey(key);
-                        var ticks = string.IsNullOrWhiteSpace(savedTime) ? -1 : Convert.ToInt64(savedTime, CultureInfo.InvariantCulture);
-                        if (ticks == -1)
-                        {
-                            value = defaultValue;
-                        }
-                        else
-                        {
-                            value = new DateTime(ticks);
-                        }
-                        break;
-                    default:
-
-                        if (defaultValue is Guid)
-                        {
-                            var outGuid = Guid.Empty;
-                            var savedGuid = defaults.StringForKey(key);
-                            if (string.IsNullOrWhiteSpace(savedGuid))
-                            {
-                                value = outGuid;
-                            }
-                            else
-                            {
-                                Guid.TryParse(savedGuid, out outGuid);
-                                value = outGuid;
-                            }
-                        }
-                        else
-                        {
-                            value = defaultValue;
-                            string serializedString = defaults.StringForKey(key);
-                            if (!string.IsNullOrEmpty(serializedString))
-                            {
-                                value = serializedString.DeserializeFromXml<T>();
-                            }
-                        }
-
-                        break;
+                    this.AddOrUpdateFunction(key, value);
                 }
 
-                return null != value ? (T)value : defaultValue;
+                else if (typeOf == typeof(decimal))
+                {
+                    string decimalString = Convert.ToString(value, CultureInfo.InvariantCulture);
+                    this.AddOrUpdateFunction(key, decimalString);
+                }
+                else if (typeOf == typeof(DateTime))
+                {
+                    var dateTime = Convert.ToDateTime(value, CultureInfo.InvariantCulture);
+                    SerializableDateTime serializableDateTime = SerializableDateTime.FromDateTime(dateTime);
+                    string stringDateTime = serializableDateTime.SerializeToXml(preserveTypeInformation: true);
+                    this.AddOrUpdateFunction(key, stringDateTime);
+                }
+                else if (typeOf == typeof(Uri))
+                {
+                    string uriString = value.ToString();
+                    this.AddOrUpdateFunction(key, uriString);
+                }
+                else
+                {
+                    string serializedString = value.SerializeToXml(preserveTypeInformation: true);
+                    this.AddOrUpdateFunction(key, serializedString);
+                }
             }
         }
 
-        public void AddOrUpdateValue<T>(string key, T value)
+        private void AddOrUpdateFunction<T>(string key, T value)
         {
-            Guard.ArgumentNotNullOrEmpty(() => key);
+            this.defaults.SetString(value.ToString(), key);
+            this.defaults.Synchronize();
+        }
 
-            var typeOf = typeof(T);
-            if (typeOf.IsNullable())
-            {
-                typeOf = Nullable.GetUnderlyingType(typeOf);
-            }
-            var typeCode = Type.GetTypeCode(typeOf);
-
-            lock (this.locker)
-            {
-                var defaults = NSUserDefaults.StandardUserDefaults;
-                switch (typeCode)
-                {
-                    case TypeCode.Decimal:
-                        defaults.SetString(Convert.ToString(value, CultureInfo.InvariantCulture), key);
-                        break;
-                    case TypeCode.Boolean:
-                        defaults.SetBool(Convert.ToBoolean(value), key);
-                        break;
-                    case TypeCode.Int64:
-                        defaults.SetString(Convert.ToString(value, CultureInfo.InvariantCulture), key);
-                        break;
-                    case TypeCode.Double:
-                        defaults.SetDouble(Convert.ToDouble(value, CultureInfo.InvariantCulture), key);
-                        break;
-                    case TypeCode.String:
-                        defaults.SetString(Convert.ToString(value), key);
-                        break;
-                    case TypeCode.Int32:
-                        defaults.SetInt(Convert.ToInt32(value, CultureInfo.InvariantCulture), key);
-                        break;
-                    case TypeCode.Single:
-                        defaults.SetFloat(Convert.ToSingle(value, CultureInfo.InvariantCulture), key);
-                        break;
-                    case TypeCode.DateTime:
-                        defaults.SetString(Convert.ToString((Convert.ToDateTime(value)).Ticks), key);
-                        break;
-                    default:
-                        if (value is Guid)
-                        {
-                            defaults.SetString(value.ToString(), key);
-                        }
-                        else
-                        {
-                            string serialized = value.SerializeToXml();
-                            defaults.SetString(serialized, key);
-                        }
-                        break;
-                }
-
-                defaults.Synchronize();
-            }
+        public void Remove(string key)
+        {
+            ////lock (this.locker)
+            ////{
+            ////    this.defaults.RemoveObject(key);
+            ////    this.defaults.Synchronize();
+            ////}
         }
     }
 }
