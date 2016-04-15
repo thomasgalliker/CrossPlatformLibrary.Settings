@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>CrossPlatformLibrary.Settings</id>
-    <version>1.0.26-pre3</version>
+    <version>1.0.26-pre4</version>
     <title>CrossPlatformLibrary.Settings</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -16,7 +16,7 @@
       windows phone winphone wp8 wpa81 win81 windowsphone android xamarin.forms xamarin.ios ios monoandroid monodroid monotouch mvvmcross mvvmlight
     </tags>
     <releaseNotes>
-      1.0.26-pre3
+      1.0.26-pre4
       - Added support for Universal Windows Platform (UWP)
       - Update SettingsService of WinRT platforms to support Nullable and DateTime types
 
@@ -89,9 +89,9 @@
     <file src="..\CrossPlatformLibrary.Settings.UWP\bin\Release\CrossPlatformLibrary.Settings.Platform.dll" target="lib\uap10.0\CrossPlatformLibrary.Settings.Platform.dll" />
     <file src="..\CrossPlatformLibrary.Settings.UWP\bin\Release\CrossPlatformLibrary.Settings.Platform.pdb" target="lib\uap10.0\CrossPlatformLibrary.Settings.Platform.pdb" />
     <file src="..\CrossPlatformLibrary.Settings.UWP\bin\Release\CrossPlatformLibrary.Settings.Platform.xml" target="lib\uap10.0\CrossPlatformLibrary.Settings.Platform.xml" />
-    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\win81\CrossPlatformLibrary.Settings.dll" />
-    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\win81\CrossPlatformLibrary.Settings.pdb" />
-    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\win81\CrossPlatformLibrary.Settings.xml" />
+    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\uap10.0\CrossPlatformLibrary.Settings.dll" />
+    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\uap10.0\CrossPlatformLibrary.Settings.pdb" />
+    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\uap10.0\CrossPlatformLibrary.Settings.xml" />
 
     <file src="tools\init.ps1" target="tools\init.ps1" />
     <file src="tools\install.ps1" target="tools\install.ps1" />
