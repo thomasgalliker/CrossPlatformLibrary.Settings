@@ -21407,7 +21407,8 @@
   "projectFileDependencyGroups": {
     "": [
       "CrossPlatformLibrary >= 1.0.73",
-      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2"
+      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",
+      "TypeConverter >= 1.0.27"
     ],
     "UAP,Version=v10.0": []
   }
