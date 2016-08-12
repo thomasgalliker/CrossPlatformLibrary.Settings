@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>CrossPlatformLibrary.Settings</id>
-    <version>1.0.26-pre5</version>
+    <version>1.0.26</version>
     <title>CrossPlatformLibrary.Settings</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -16,7 +16,10 @@
       windows phone winphone wp8 wpa81 win81 windowsphone android xamarin.forms xamarin.ios ios monoandroid monodroid monotouch mvvmcross mvvmlight
     </tags>
     <releaseNotes>
-      1.0.26-pre5
+      1.0.26
+      - Added support for .Net Framework 4.5
+      - Bugfix for reading default value of DateTime settings
+      - Fixed project build dependencies (missing DLL files)
       - Added support for Universal Windows Platform (UWP)
       - Update SettingsService of WinRT platforms to support Nullable and DateTime types
 
@@ -44,7 +47,7 @@
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\monoandroid10\CrossPlatformLibrary.Settings.dll" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\monoandroid10\CrossPlatformLibrary.Settings.pdb" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\monoandroid10\CrossPlatformLibrary.Settings.xml" />
-    
+
     <!--Xamarin.iOS Classic API-->
     <file src="..\CrossPlatformLibrary.Settings.iOS\bin\iPhone\Release\CrossPlatformLibrary.Settings.Platform.dll" target="lib\monotouch10\CrossPlatformLibrary.Settings.Platform.dll" />
     <file src="..\CrossPlatformLibrary.Settings.iOS\bin\iPhone\Release\CrossPlatformLibrary.Settings.Platform.pdb" target="lib\monotouch10\CrossPlatformLibrary.Settings.Platform.pdb" />
@@ -52,7 +55,7 @@
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\monotouch10\CrossPlatformLibrary.Settings.dll" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\monotouch10\CrossPlatformLibrary.Settings.pdb" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\monotouch10\CrossPlatformLibrary.Settings.xml" />
-    
+
     <!--Xamarin.iOS Unified API-->
     <file src="..\CrossPlatformLibrary.Settings.iOSUnified\bin\iPhone\Release\CrossPlatformLibrary.Settings.Platform.dll" target="lib\xamarin.ios10\CrossPlatformLibrary.Settings.Platform.dll" />
     <file src="..\CrossPlatformLibrary.Settings.iOSUnified\bin\iPhone\Release\CrossPlatformLibrary.Settings.Platform.pdb" target="lib\xamarin.ios10\CrossPlatformLibrary.Settings.Platform.pdb" />
@@ -60,7 +63,15 @@
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\xamarin.ios10\CrossPlatformLibrary.Settings.dll" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\xamarin.ios10\CrossPlatformLibrary.Settings.pdb" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\xamarin.ios10\CrossPlatformLibrary.Settings.xml" />
-    
+
+    <!--Net45-->
+    <file src="..\CrossPlatformLibrary.Settings.Netfx\bin\Release\CrossPlatformLibrary.Settings.Platform.dll" target="lib\net45\CrossPlatformLibrary.Settings.Platform.dll" />
+    <file src="..\CrossPlatformLibrary.Settings.Netfx\bin\Release\CrossPlatformLibrary.Settings.Platform.pdb" target="lib\net45\CrossPlatformLibrary.Settings.Platform.pdb" />
+    <file src="..\CrossPlatformLibrary.Settings.Netfx\bin\Release\CrossPlatformLibrary.Settings.Platform.xml" target="lib\net45\CrossPlatformLibrary.Settings.Platform.xml" />
+    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\net45\CrossPlatformLibrary.Settings.dll" />
+    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\net45\CrossPlatformLibrary.Settings.pdb" />
+    <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\net45\CrossPlatformLibrary.Settings.xml" />
+
     <!--Windows Phone 8-->
     <file src="..\CrossPlatformLibrary.Settings.WindowsPhone8\Bin\Release\CrossPlatformLibrary.Settings.Platform.dll" target="lib\wp8\CrossPlatformLibrary.Settings.Platform.dll" />
     <file src="..\CrossPlatformLibrary.Settings.WindowsPhone8\Bin\Release\CrossPlatformLibrary.Settings.Platform.pdb" target="lib\wp8\CrossPlatformLibrary.Settings.Platform.pdb" />
@@ -68,7 +79,7 @@
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\wp8\CrossPlatformLibrary.Settings.dll" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\wp8\CrossPlatformLibrary.Settings.pdb" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\wp8\CrossPlatformLibrary.Settings.xml" />
-    
+
     <!--Windows Phone 8.1-->
     <file src="..\CrossPlatformLibrary.Settings.WindowsPhone81\Bin\Release\CrossPlatformLibrary.Settings.Platform.dll" target="lib\wpa81\CrossPlatformLibrary.Settings.Platform.dll" />
     <file src="..\CrossPlatformLibrary.Settings.WindowsPhone81\Bin\Release\CrossPlatformLibrary.Settings.Platform.pdb" target="lib\wpa81\CrossPlatformLibrary.Settings.Platform.pdb" />
@@ -76,7 +87,7 @@
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\wpa81\CrossPlatformLibrary.Settings.dll" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\wpa81\CrossPlatformLibrary.Settings.pdb" />
     <file src="..\CrossPlatformLibrary.Settings\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\wpa81\CrossPlatformLibrary.Settings.xml" />
-    
+
     <!--Windows Store-->
     <file src="..\CrossPlatformLibrary.Settings.WindowsStore\Bin\Release\CrossPlatformLibrary.Settings.Platform.dll" target="lib\win81\CrossPlatformLibrary.Settings.Platform.dll" />
     <file src="..\CrossPlatformLibrary.Settings.WindowsStore\Bin\Release\CrossPlatformLibrary.Settings.Platform.pdb" target="lib\win81\CrossPlatformLibrary.Settings.Platform.pdb" />
