@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Globalization;
+using CrossPlatformLibrary.Extensions;
 using CrossPlatformLibrary.IO;
 using CrossPlatformLibrary.Tracing;
 using Guards;
 using TypeConverter;
 using Windows.Storage;
-
-using CrossPlatformLibrary.Extensions;
 
 namespace CrossPlatformLibrary.Settings
 {
@@ -45,24 +44,24 @@ namespace CrossPlatformLibrary.Settings
         {
             Guard.ArgumentNotNullOrEmpty(() => key);
 
-            var type = typeof(T);
-            this.tracer.Debug("GetValueOrDefault for key={0}, type={1}.", key, type.GetFormattedName());
+            var typeOf = typeof(T);
+            this.tracer.Debug("GetValueOrDefault for key={0}, type={1}.", key, typeOf.GetFormattedName());
             object value = defaultValue;
 
             lock (this.locker)
             {
-                if (type.IsNullable())
+                if (typeOf.IsNullable())
                 {
-                    type = Nullable.GetUnderlyingType(type);
+                    typeOf = Nullable.GetUnderlyingType(typeOf);
                 }
 
-                if (IsWindowsRuntimeType(type))
+                if (IsWindowsRuntimeType(typeOf))
                 {
                     // All of these types are supported by WinRT: https://msdn.microsoft.com/en-us/library/windows/apps/br205768.aspx
                     // The rest of it must be converted
                     value = this.GetValueOrDefaultFunction(key, defaultValue);
                 }
-                else if (type == typeof(decimal))
+                else if (typeOf == typeof(decimal))
                 {
                     var savedDecimal = this.GetValueOrDefaultFunction<string>(key, null);
                     if (savedDecimal != null)
@@ -70,16 +69,19 @@ namespace CrossPlatformLibrary.Settings
                         value = Convert.ToDecimal(savedDecimal, CultureInfo.InvariantCulture);
                     }
                 }
-                else if (type == typeof(DateTime))
+                else if (typeOf == typeof(DateTime))
                 {
                     var stringDateTime = this.GetValueOrDefaultFunction<string>(key, null);
-                    var serializableDateTime = stringDateTime.DeserializeFromXml<SerializableDateTime>();
-                    if (serializableDateTime != SerializableDateTime.Undefined)
+                    if (stringDateTime != null)
                     {
-                        value = new DateTime(serializableDateTime.Ticks, serializableDateTime.Kind);
+                        var serializableDateTime = stringDateTime.DeserializeFromXml<SerializableDateTime>();
+                        if (serializableDateTime != SerializableDateTime.Undefined)
+                        {
+                            value = new DateTime(serializableDateTime.Ticks, serializableDateTime.Kind);
+                        }
                     }
                 }
-                else if (type == typeof(Uri))
+                else if (typeOf == typeof(Uri))
                 {
                     string uriString = this.GetValueOrDefaultFunction<string>(key, null);
                     value = new Uri(uriString);
@@ -138,7 +140,7 @@ namespace CrossPlatformLibrary.Settings
                 else if (typeOf == typeof(DateTime))
                 {
                     var dateTime = Convert.ToDateTime(value, CultureInfo.InvariantCulture);
-                    SerializableDateTime serializableDateTime = SerializableDateTime.FromDateTime(dateTime);
+                    var serializableDateTime = SerializableDateTime.FromDateTime(dateTime);
                     string stringDateTime = serializableDateTime.SerializeToXml(preserveTypeInformation: true);
                     this.AddOrUpdateFunction(key, stringDateTime);
                 }

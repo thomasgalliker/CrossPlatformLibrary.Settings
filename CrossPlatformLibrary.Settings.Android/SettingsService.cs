@@ -68,10 +68,13 @@ namespace CrossPlatformLibrary.Settings
                 else if (typeOf == typeof(DateTime))
                 {
                     var stringDateTime = this.GetValueOrDefaultFunction<string>(key, null);
-                    var serializableDateTime = stringDateTime.DeserializeFromXml<SerializableDateTime>();
-                    if (serializableDateTime != SerializableDateTime.Undefined)
+                    if (stringDateTime != null)
                     {
-                        value = new DateTime(serializableDateTime.Ticks, serializableDateTime.Kind);
+                        var serializableDateTime = stringDateTime.DeserializeFromXml<SerializableDateTime>();
+                        if (serializableDateTime != SerializableDateTime.Undefined)
+                        {
+                            value = new DateTime(serializableDateTime.Ticks, serializableDateTime.Kind);
+                        }
                     }
                 }
                 else if (typeOf == typeof(Uri))
@@ -139,7 +142,7 @@ namespace CrossPlatformLibrary.Settings
                 else if (typeOf == typeof(DateTime))
                 {
                     var dateTime = Convert.ToDateTime(value, CultureInfo.InvariantCulture);
-                    SerializableDateTime serializableDateTime = SerializableDateTime.FromDateTime(dateTime);
+                    var serializableDateTime = SerializableDateTime.FromDateTime(dateTime);
                     string stringDateTime = serializableDateTime.SerializeToXml(preserveTypeInformation: true);
                     this.AddOrUpdateFunction(key, stringDateTime);
                 }
