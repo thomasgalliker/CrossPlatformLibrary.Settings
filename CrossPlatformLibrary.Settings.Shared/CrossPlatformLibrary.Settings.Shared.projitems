@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>831123c3-122c-49df-9b24-599499ee349d</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>CrossPlatformLibrary.Settings</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ContainerExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ISettingsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SerializableDateTime.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SettingsProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SettingsServiceBase.cs" />
+  </ItemGroup>
+</Project>

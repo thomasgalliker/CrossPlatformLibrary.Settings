@@ -61,12 +61,12 @@
     <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrossPlatformLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\CrossPlatformLibrary.1.0.73\lib\xamarin.ios10\CrossPlatformLibrary.dll</HintPath>
+    <Reference Include="CrossPlatformLibrary, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\CrossPlatformLibrary.2.0.0-pre7\lib\xamarin.ios10\CrossPlatformLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CrossPlatformLibrary.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\CrossPlatformLibrary.1.0.73\lib\xamarin.ios10\CrossPlatformLibrary.Platform.dll</HintPath>
+    <Reference Include="CrossPlatformLibrary.Settings, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\CrossPlatformLibrary.Settings.2.0.0-pre3\lib\xamarin.ios10\CrossPlatformLibrary.Settings.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Guards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ac6aedb73a72f46e, processorArchitecture=MSIL">
@@ -84,23 +84,21 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="Tracing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Tracing.1.0.2\lib\xamarin.ios10\Tracing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\TypeConverter.1.0.27\lib\xamarin.ios10\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="XmlSerializerHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\XmlSerializerHelper.3.0.0\lib\xamarin.ios10\XmlSerializerHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CrossPlatformLibrary.Settings.iOS\CrossPlatformLibrary.Settings.iOS.csproj">
-      <Project>{d7f3aa16-8ef1-4924-9e0a-dad4ab46b2eb}</Project>
-      <Name>CrossPlatformLibrary.Settings.iOS</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\CrossPlatformLibrary.Settings\CrossPlatformLibrary.Settings.csproj">
-      <Project>{a6fcef44-d2ba-42c7-b3cb-13667bcd7b54}</Project>
-      <Name>CrossPlatformLibrary.Settings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SettingsSample\SettingsSample.csproj">
       <Name>SettingsSample</Name>
     </ProjectReference>

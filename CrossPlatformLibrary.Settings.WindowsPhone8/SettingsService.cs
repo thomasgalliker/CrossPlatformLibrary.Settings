@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO.IsolatedStorage;
 
-using CrossPlatformLibrary.Tracing;
+using Tracing;
 using Guards;
 
 using TypeConverter;

@@ -17,6 +17,9 @@ namespace SettingsSample.WPF
         {
             this.InitializeComponent();
 
+            // TODO GATH: Harmonize this code with the xamarin forms project
+            // TODO GATH: Install .Settings nuget
+
             this.demoSettingsService = SimpleIoc.Default.GetInstance<IDemoSettingsService>();
             this.demoSettingsService.Id = Guid.NewGuid();
             var guid = this.demoSettingsService.Id;

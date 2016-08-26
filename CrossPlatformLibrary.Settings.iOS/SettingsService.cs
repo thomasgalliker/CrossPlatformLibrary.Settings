@@ -1,12 +1,12 @@
 
 using Guards;
-using CrossPlatformLibrary.IO;
 
 using System;
 using System.Globalization;
+using System.Xml.Serialization.Extensions;
 
 using CrossPlatformLibrary.Extensions;
-using CrossPlatformLibrary.Tracing;
+using Tracing;
 
 using TypeConverter;
 
@@ -20,10 +20,10 @@ namespace CrossPlatformLibrary.Settings
 {
     public class SettingsService : ISettingsService
     {
+        private readonly NSUserDefaults defaults;
         private readonly object locker = new object();
         private readonly ITracer tracer;
         private readonly IConverterRegistry converterRegistry;
-        private readonly NSUserDefaults defaults;
 
         public SettingsService(ITracer tracer, IConverterRegistry converterRegistry)
         {

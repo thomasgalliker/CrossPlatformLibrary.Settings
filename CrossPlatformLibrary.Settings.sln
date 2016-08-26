@@ -66,7 +66,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests.Netfx", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests.iOS", "Tests\IntegrationTests.iOS\IntegrationTests.iOS.csproj", "{B81F47D4-39DB-40CB-8F6D-A38EF4E3EB0E}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CrossPlatformLibrary.Settings.Shared", "CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.shproj", "{831123C3-122C-49DF-9B24-599499EE349D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CrossPlatformLibrary.Settings.Shared.WinRT", "CrossPlatformLibrary.Settings.Shared.WinRT\CrossPlatformLibrary.Settings.Shared.WinRT.shproj", "{DA90AB51-0603-4C62-89A8-5F8BCCD6CE2D}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.projitems*{2882aeeb-d4cd-4eb9-8a6c-6653b33681f0}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.projitems*{56a56f17-7de1-4ca1-9617-bf32e971ac84}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.projitems*{5876144b-47dd-4c4e-b421-bc03f191b996}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared.WinRT\CrossPlatformLibrary.Settings.Shared.WinRT.projitems*{7169373f-0b82-4e5d-9129-7cc3065b90fa}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.projitems*{7169373f-0b82-4e5d-9129-7cc3065b90fa}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.projitems*{831123c3-122c-49df-9b24-599499ee349d}*SharedItemsImports = 13
+		CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.projitems*{a6fcef44-d2ba-42c7-b3cb-13667bcd7b54}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.projitems*{bba4d7d7-7e41-4796-bc70-ddc13cfcfbc6}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared.WinRT\CrossPlatformLibrary.Settings.Shared.WinRT.projitems*{d65f5075-f383-44ab-b383-4dae4550c0f3}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.projitems*{d65f5075-f383-44ab-b383-4dae4550c0f3}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.projitems*{d7f3aa16-8ef1-4924-9e0a-dad4ab46b2eb}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared.WinRT\CrossPlatformLibrary.Settings.Shared.WinRT.projitems*{da90ab51-0603-4c62-89a8-5f8bccd6ce2d}*SharedItemsImports = 13
+		CrossPlatformLibrary.Settings.Shared.WinRT\CrossPlatformLibrary.Settings.Shared.WinRT.projitems*{ed9a4ca1-c04c-457d-9a2e-7995ccf12356}*SharedItemsImports = 4
+		CrossPlatformLibrary.Settings.Shared\CrossPlatformLibrary.Settings.Shared.projitems*{ed9a4ca1-c04c-457d-9a2e-7995ccf12356}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
 		Ad-Hoc|ARM = Ad-Hoc|ARM

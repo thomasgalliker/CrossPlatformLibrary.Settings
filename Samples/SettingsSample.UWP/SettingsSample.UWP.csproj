@@ -131,14 +131,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CrossPlatformLibrary.Settings.UWP\CrossPlatformLibrary.Settings.UWP.csproj">
-      <Project>{d65f5075-f383-44ab-b383-4dae4550c0f3}</Project>
-      <Name>CrossPlatformLibrary.Settings.UWP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CrossPlatformLibrary.Settings\CrossPlatformLibrary.Settings.csproj">
-      <Project>{a6fcef44-d2ba-42c7-b3cb-13667bcd7b54}</Project>
-      <Name>CrossPlatformLibrary.Settings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SettingsSample\SettingsSample\SettingsSample.csproj">
       <Project>{71c449ab-fa2a-4254-b52f-a5ef5f43b813}</Project>
       <Name>SettingsSample</Name>

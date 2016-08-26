@@ -4,8 +4,8 @@ using System.IO;
 using System.IO.IsolatedStorage;
 
 using CrossPlatformLibrary.Extensions;
-using CrossPlatformLibrary.IO;
-using CrossPlatformLibrary.Tracing;
+using System.Xml.Serialization.Extensions;
+using Tracing;
 
 using Guards;
 

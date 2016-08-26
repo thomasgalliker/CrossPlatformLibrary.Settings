@@ -1,16 +1,12 @@
 using System;
 using System.Globalization;
-
+using System.Xml.Serialization.Extensions;
 using Android.App;
 using Android.Content;
 using Android.Preferences;
-
 using CrossPlatformLibrary.Extensions;
-using CrossPlatformLibrary.IO;
-using CrossPlatformLibrary.Tracing;
-
 using Guards;
-
+using Tracing;
 using TypeConverter;
 
 namespace CrossPlatformLibrary.Settings
