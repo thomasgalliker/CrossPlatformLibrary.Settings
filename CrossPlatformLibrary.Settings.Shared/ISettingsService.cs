@@ -21,7 +21,7 @@ namespace CrossPlatformLibrary.Settings
         void AddOrUpdateValue<T>(string key, T value);
 
         ////void Remove(string key);
-        
+
         ////void RemoveAll();
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace CrossPlatformLibrary.Settings.IntegrationTests.Stubs
+﻿namespace CrossPlatformLibrary.Settings.IntegrationTests.Stubs
 {
     public class Person
     {

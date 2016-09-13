@@ -1,25 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CrossPlatformLibrary.Settings.IntegrationTests;
-
-using Xunit;
-using Xunit.Runners;
-using Xunit.Sdk;
 using System.Reflection;
 using System.Threading;
-
-using CrossPlatformLibrary.Bootstrapping;
-using CrossPlatformLibrary.IoC;
-using CrossPlatformLibrary.Settings;
-
 using FluentAssertions;
-
+using Xunit;
 using Xunit.Abstractions;
+using Xunit.Runners;
 
 namespace IntegrationTests.Netfx
 {
@@ -42,7 +27,7 @@ namespace IntegrationTests.Netfx
         {
             var testAssembly = this.AssemblyLocation(Assembly.Load("CrossPlatformLibrary.Settings.IntegrationTests"));
 
-            using (var runner = AssemblyRunner.WithoutAppDomain(testAssembly))
+            using (var runner = AssemblyRunner.WithAppDomain(testAssembly))
             {
                 runner.OnDiscoveryComplete = this.OnDiscoveryComplete;
                 runner.OnExecutionComplete = this.OnExecutionComplete;
@@ -84,7 +69,7 @@ namespace IntegrationTests.Netfx
 
         private void OnDiscoveryComplete(DiscoveryCompleteInfo info)
         {
-            this.testOutputHelper.WriteLine($"Running {info.TestCasesToRun} of {info.TestCasesDiscovered} tests...");
+            this.testOutputHelper.WriteLine($"Running {info.TestCasesToRun} test cases...");
         }
 
         private string AssemblyLocation(Assembly testAssembly)

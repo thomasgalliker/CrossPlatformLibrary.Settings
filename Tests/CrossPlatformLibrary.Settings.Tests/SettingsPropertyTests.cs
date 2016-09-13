@@ -2,6 +2,7 @@
 
 using CrossPlatformLibrary.Utils;
 
+using FluentAssertions;
 
 using Moq;
 
@@ -21,7 +22,7 @@ namespace CrossPlatformLibrary.Settings.Tests
             Action action = () => new SettingsProperty<string>(null, settingsKeyName);
 
             // Assert
-            Assert.Throws<ArgumentNullException>(action);
+            action.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
@@ -34,7 +35,7 @@ namespace CrossPlatformLibrary.Settings.Tests
             Action action = () => new SettingsProperty<string>(null, settingsKeyName);
 
             // Assert
-            Assert.Throws<ArgumentNullException>(action);
+            action.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
@@ -48,7 +49,7 @@ namespace CrossPlatformLibrary.Settings.Tests
             Action action = () => new SettingsProperty<string>(settingsServiceMock.Object, settingsKeyName);
 
             // Assert
-            Assert.Throws<ArgumentException>(action);
+            action.ShouldThrow<ArgumentException>();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
-    "CrossPlatformLibrary": "2.0.0-pre7",
+    "CrossPlatformLibrary": "2.0.0-pre10",
+    "Guards": "1.0.13-pre1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "TypeConverter": "1.0.27",
     "XmlSerializerHelper": "3.0.0"

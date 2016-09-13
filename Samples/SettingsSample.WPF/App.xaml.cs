@@ -6,12 +6,17 @@ namespace SettingsSample.WPF
 {
     public partial class App : Application
     {
-        private readonly Bootstrapper bootstrapper;
+        private readonly IBootstrapper bootstrapper;
 
-        public App()
+        protected App()
         {
             this.bootstrapper = new SettingsSampleBootstrapper();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
             this.bootstrapper.Startup();
+            base.OnStartup(e);
         }
 
         protected override void OnExit(ExitEventArgs e)

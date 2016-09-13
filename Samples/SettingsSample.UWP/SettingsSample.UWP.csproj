@@ -130,12 +130,6 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SettingsSample\SettingsSample\SettingsSample.csproj">
-      <Project>{71c449ab-fa2a-4254-b52f-a5ef5f43b813}</Project>
-      <Name>SettingsSample</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -49,6 +49,8 @@ namespace IntegrationTests.Android
 			global::Xamarin.Android.NUnitLite.Resource.Layout.test_result = global::IntegrationTests.Android.Resource.Layout.test_result;
 			global::Xamarin.Android.NUnitLite.Resource.Layout.test_suite = global::IntegrationTests.Android.Resource.Layout.test_suite;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::IntegrationTests.Android.Resource.Attribute.actionBarSize;
+			global::System.Xml.Serialization.Resource.String.ApplicationName = global::IntegrationTests.Android.Resource.String.ApplicationName;
+			global::System.Xml.Serialization.Resource.String.Hello = global::IntegrationTests.Android.Resource.String.Hello;
 		}
 		
 		public partial class Animation

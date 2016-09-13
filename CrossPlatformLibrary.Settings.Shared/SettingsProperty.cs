@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Linq.Expressions;
 
 using Guards;
@@ -19,9 +18,9 @@ namespace CrossPlatformLibrary.Settings
 
         public SettingsProperty(ISettingsService settingsService, string key, T defaultValue = default(T))
         {
-            Guard.ArgumentNotNull(() => settingsService);
-            Guard.ArgumentNotNullOrEmpty(() => key);
-            Guard.ArgumentHasMaxLength(() => key, 255);
+            Guard.ArgumentNotNull(settingsService, nameof(settingsService));
+            Guard.ArgumentNotNullOrEmpty(key, nameof(key));
+            Guard.ArgumentHasMaxLength(() => key, 255); // TODO: Use key, nameof(key)
 
             this.settingsService = settingsService;
             this.key = key;

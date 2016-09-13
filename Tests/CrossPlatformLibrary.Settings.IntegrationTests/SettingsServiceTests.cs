@@ -1,7 +1,8 @@
-﻿
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 using CrossPlatformLibrary.Bootstrapping;
 using CrossPlatformLibrary.IoC;
@@ -9,7 +10,10 @@ using CrossPlatformLibrary.Settings.IntegrationTests.Stubs;
 
 using FluentAssertions;
 
+using Tracing;
+
 using Xunit;
+using Xunit.Abstractions;
 
 namespace CrossPlatformLibrary.Settings.IntegrationTests
 {
@@ -17,27 +21,76 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
     public class SettingsServiceTests
     {
         private static Bootstrapper bootstrapper;
+        private readonly ITestOutputHelper testOutputHelper;
 
-        public SettingsServiceTests()
+        public SettingsServiceTests(ITestOutputHelper testOutputHelper)
         {
-            if (SimpleIoc.Default.IsRegistered<ISettingsService>() == false)
+            this.testOutputHelper = testOutputHelper;
+            Tracer.SetDefaultFactory(new ActionTracerFactory((s, entry) => testOutputHelper.WriteLine(s)));
+
+            if (bootstrapper == null)
             {
                 bootstrapper = new Bootstrapper();
                 bootstrapper.Startup();
             }
 
+
             ////var settingsService = SimpleIoc.Default.GetInstance<ISettingsService>();
             ////settingsService.RemoveAll();
         }
 
-        /*
-        
-                   type == typeof(byte) ||
-                   type == typeof(char) ||
-                   type == typeof(DateTimeOffset) ||
-                   type == typeof(ushort) ||
-                   type == typeof(ulong) ||
-            */
+        // TODO: Theory does not work properly on xUnit.Devices
+        [Theory]
+        [ClassData(typeof(PropertyInputData))]
+        public void ShouldReadWriteNativeTypes(ITestValue testValue)
+        {
+            // Arrange
+            var inputValue = testValue.Value;
+
+            this.testOutputHelper.WriteLine($"TestValue.Value={testValue.Value}, TestValue.Type={testValue.Type}");
+
+            // Act
+            var outputValue = ReadWriteValueOfType(inputValue, testValue.Type);
+
+            // Assert
+            outputValue.Should().Be(inputValue);
+        }
+
+        public class PropertyInputData : IEnumerable<object[]>
+        {
+            private readonly List<object[]> data = new List<object[]>
+            {
+                //new object[] { new TestValue<bool>(true) },
+                //new object[] { new TestValue<short>(short.MaxValue) },
+                //new object[] { new TestValue<ushort>(ushort.MaxValue) },
+                //new object[] { new TestValue<int>(int.MaxValue) },
+                //new object[] { new TestValue<uint>(uint.MaxValue) },
+                new object[] { new TestValue<float>(float.MaxValue) },
+                new object[] { new TestValue<float>(float.MinValue) },
+                new object[] { new TestValue<double>(double.MaxValue) },
+                new object[] { new TestValue<double>(double.MinValue) },
+                new object[] { new TestValue<long>(long.MaxValue) },
+                new object[] { new TestValue<long>(long.MinValue) },
+                new object[] { new TestValue<ulong>(ulong.MaxValue) },
+                new object[] { new TestValue<decimal>(decimal.MaxValue) },
+                new object[] { new TestValue<string>(new string('*', 10)) },
+                new object[] { new TestValue<byte>(byte.MaxValue) },
+                new object[] { new TestValue<Uri>(new Uri("http://www.thomasgalliker.ch")) },
+                new object[] { new TestValue<Guid>(Guid.NewGuid()) },
+                new object[] { new TestValue<DateTime>(DateTime.Now.ToLocalTime()) },
+                new object[] { new TestValue<DateTime>(DateTime.Now.ToUniversalTime()) },
+            };
+
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                return this.data.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
 
         [Fact]
         public void ShouldReadWriteBool()
@@ -160,7 +213,7 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         public void ShouldReadWriteFloat()
         {
             // Arrange
-            float inputValue = 999.99f;
+            float inputValue = float.MaxValue;
 
             // Act
             var outputValue = ReadWriteValueOfType(inputValue);
@@ -173,7 +226,7 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         public void ShouldReadWriteDouble()
         {
             // Arrange
-            double inputValue = 999.77d;
+            double inputValue = double.MaxValue;
 
             // Act
             var outputValue = ReadWriteValueOfType(inputValue);
@@ -254,7 +307,7 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         {
             IEnumerable<Person> personList = new List<Person> { new Person { Name = "Person1", Age = 77 }, new Person { Name = "Person2", Age = 88 }, };
 
-            var outputValue = ReadWriteValueOfType(personList);
+            var outputValue = ReadWriteValueOfType(personList).ToList();
 
             // Assert
             outputValue.ElementAt(0).Name.Should().Be(personList.ElementAt(0).Name);
@@ -316,7 +369,33 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
                 settingsKeyName = key;
             }
             var settingsService = SimpleIoc.Default.GetInstance<ISettingsService>();
-            var property = new SettingsProperty<T>(settingsService, settingsKeyName);
+
+            Type genericSettingsProperty = typeof(SettingsProperty<>).MakeGenericType(typeof(T));
+            ConstructorInfo constr = genericSettingsProperty.GetTypeInfo().DeclaredConstructors.Single(c => c.GetParameters()[0].ParameterType == typeof(ISettingsService) && c.GetParameters()[1].ParameterType == typeof(string));
+
+            var property = (SettingsProperty<T>)constr.Invoke(new object[] { settingsService, settingsKeyName, null});
+
+            // Act
+            property.Value = inputValue;
+            var outputValue = property.Value;
+
+            return outputValue;
+        }
+
+        private static object ReadWriteValueOfType(object inputValue, Type type, string key = null)
+        {
+            // Arrange
+            string settingsKeyName = "key_" + Guid.NewGuid();
+            if (!string.IsNullOrEmpty(key))
+            {
+                settingsKeyName = key;
+            }
+            var settingsService = SimpleIoc.Default.GetInstance<ISettingsService>();
+
+            Type genericSettingsProperty = typeof(SettingsProperty<>).MakeGenericType(type);
+            ConstructorInfo constr = genericSettingsProperty.GetTypeInfo().DeclaredConstructors.Single(c => c.GetParameters()[0].ParameterType == typeof(ISettingsService) && c.GetParameters()[1].ParameterType == typeof(string));
+
+            var property = (ISettingsProperty)constr.Invoke(new object[] { settingsService, settingsKeyName, null });
 
             // Act
             property.Value = inputValue;
@@ -331,6 +410,25 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
             var property = new SettingsProperty<T>(settingsService, settingsKeyName);
 
             return property.Value;
+        }
+
+        public interface ITestValue
+        {
+            object Value { get; }
+            Type Type { get; }
+        }
+
+        private class TestValue<T> : ITestValue
+        {
+            public TestValue(T value)
+            {
+                this.Value = value;
+                this.Type = typeof(T);
+            }
+
+            public Type Type { get; }
+
+            public object Value { get; }
         }
     }
 }
