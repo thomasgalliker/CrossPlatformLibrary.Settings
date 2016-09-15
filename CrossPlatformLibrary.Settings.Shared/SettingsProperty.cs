@@ -5,7 +5,7 @@ using Guards;
 
 namespace CrossPlatformLibrary.Settings
 {
-    public class SettingsProperty<T>
+    public class SettingsProperty<T> : ISettingsProperty
     {
         private readonly ISettingsService settingsService;
         private readonly string key;
@@ -38,5 +38,23 @@ namespace CrossPlatformLibrary.Settings
                 this.settingsService.AddOrUpdateValue(this.key, value);
             }
         }
+
+        object ISettingsProperty.Value
+        {
+            get
+            {
+                return this.Value;
+            }
+
+            set
+            {
+                this.Value = (T)value;
+            }
+        }
+    }
+
+    public interface ISettingsProperty
+    {
+        object Value { get; set; }
     }
 }
