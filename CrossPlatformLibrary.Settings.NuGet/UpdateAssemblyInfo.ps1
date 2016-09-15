@@ -35,8 +35,7 @@ function Get-VersionFromNuspec ([string] $nuspecFilePath) {
 
 
   [ xml ]$nuspecXml = Get-Content -Path $nuspecFilePath
-  $semVerVersionParts = $nuspecXml.package.metadata.version.Split('-')
-  $version = [Version]::Parse($semVerVersionParts[0])
+  $version = $nuspecXml.package.metadata.version
 
   Write-Host "Read <version> of file $($nuspecFilePath): $version"
   return $version;
@@ -51,17 +50,21 @@ function Get-VersionFromNuspec ([string] $nuspecFilePath) {
 #-------------------------------------------------------------------------------
 function Update-AssemblyInfoFiles ([string] $nuspecFilePath, [string] $assemblyInfoFilePath) {
 
-	[Version]$version = Get-VersionFromNuspec "$root\$nuspecFilePath"
+	$version = Get-VersionFromNuspec "$root\$nuspecFilePath"
+	$versionSplit = $version.Split('-')
 
-	$assemblyVersionPattern = 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)'
-	$assemblyVersion = 'AssemblyVersion("' + $version + '")';
+	$assemblyVersionPattern = 'AssemblyVersion\("[^"]*"\)'
+	$assemblyVersion = 'AssemblyVersion("' + $versionSplit[0] + '")';
+	Write-Host "AssemblyVersion = $assemblyVersion"
 
-	$assemblyFileVersionPattern = 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)'
+	$assemblyFileVersionPattern = 'AssemblyFileVersion\("[^"]*"\)'
 	$assemblyFileVersion = 'AssemblyFileVersion("' + $version + '")';
+	Write-Host "AssemblyFileVersion = $assemblyFileVersion"
 
 	$copyright = "Copyright © $(Get-Date –f yyyy)"
 	$assemblyAssemblyCopyrightPattern = 'AssemblyCopyright\("[^"]*"\)'
 	$assemblyAssemblyCopyright = 'AssemblyCopyright("' + $copyright + '")';
+	Write-Host "AssemblyCopyright = $assemblyAssemblyCopyright"
 
 	Get-ChildItem "$root\$assemblyInfoFilePath" | ForEach-Object {
 		$filename = $_.Directory.ToString() + '\' + $_.Name
