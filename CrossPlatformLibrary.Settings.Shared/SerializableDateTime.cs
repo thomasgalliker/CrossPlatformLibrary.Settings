@@ -4,6 +4,7 @@ using System.Diagnostics;
 namespace CrossPlatformLibrary.Settings
 {
     [DebuggerDisplay("SerializableDateTime: Ticks={Ticks}, Kind={Kind}")]
+    [Obsolete]
     public struct SerializableDateTime
     {
         // ReSharper disable once MemberCanBePrivate.Global because it's used for serialization

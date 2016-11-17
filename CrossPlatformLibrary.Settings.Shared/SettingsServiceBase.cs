@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Xml.Serialization.Extensions;
 
 using CrossPlatformLibrary.Extensions;
@@ -11,21 +12,28 @@ using Guards;
 using Tracing;
 
 using TypeConverter;
+using TypeConverter.Converters;
+using TypeConverter.Extensions;
 
 namespace CrossPlatformLibrary.Settings
 {
     public abstract class SettingsServiceBase : ISettingsService
     {
         private readonly object locker = new object();
-        protected readonly ITracer tracer;
-        protected readonly IConverterRegistry converterRegistry;
+        private readonly ITracer tracer;
+        private readonly IConverterRegistry converterRegistry;
 
-        private const string RFormatString = "R"; // https://msdn.microsoft.com/en-us/library/dwhawy9k(v=vs.110).aspx#RFormatString
-
-        private readonly IDictionary<Type, string> formatMapping = new Dictionary<Type, string>
+        private static readonly IConvertable[] DefaultConverters =
         {
-            { typeof(double), RFormatString },
-            { typeof(float), RFormatString },
+            new StringToBoolConverter(),
+            new StringToIntegerConverter(),
+            new StringToUriConverter(),
+            new StringToGuidConverter(),
+            new StringToFloatConverter(),
+            new StringToDoubleConverter(),
+            new StringToDecimalConverter(),
+            new StringToDateTimeConverter(),
+            new StringToDateTimeOffsetConverter(),
         };
 
         protected SettingsServiceBase(ITracer tracer, IConverterRegistry converterRegistry)
@@ -35,102 +43,114 @@ namespace CrossPlatformLibrary.Settings
 
             this.tracer = tracer;
             this.converterRegistry = converterRegistry;
+            this.converterRegistry.RegisterConverters(DefaultConverters);
         }
 
-        protected abstract T GetValueOrDefaultFunction<T>(string key, T defaultValue);
+        protected IConverterRegistry ConverterRegistry
+        {
+            get
+            {
+                return this.converterRegistry;
+            }
+        }
+
+        protected ITracer Tracer
+        {
+            get
+            {
+                return this.tracer;
+            }
+        }
+
+        protected abstract object GetValueOrDefaultFunction<T>(string key, T defaultValue);
 
         protected abstract void AddOrUpdateValueFunction<T>(string key, T value);
 
         /// <summary>
-        ///     Checks if the given <paramref name="type" /> is a native type
-        ///     and can be stored without conversion.
+        /// Checks if the given <paramref name="type" /> is a native type and can be stored without conversion.
         /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         protected virtual bool IsNativeType(Type type)
         {
-            return type == typeof(string) ||
-                    (type == typeof(double)) ||
-                    (type == typeof(float)) ||
-                    (type == typeof(Guid)) ||
-                    (type == typeof(bool)) ||
-                    (type == typeof(short)) ||
-                    (type == typeof(ushort)) ||
-                    (type == typeof(int)) ||
-                    (type == typeof(uint)) ||
-                    (type == typeof(long)) ||
-                    (type == typeof(ulong)) ||
-                    (type == typeof(byte));
+            return DefaultNativeTypes.Contains(type);
         }
 
-        protected virtual TTarget TryConvert<TSource, TTarget>(TSource source, TTarget defaultValue)
+        private static readonly Type[] DefaultNativeTypes =
         {
-            this.tracer.Debug($"Trying to convert from source type {typeof(TSource).GetFormattedName()} to target type {typeof(TTarget).GetFormattedName()}.");
-            return this.converterRegistry.TryConvert(source, defaultValue);
+            typeof (char),
+            typeof (string),
+        };
+
+        /// <summary>
+        /// Checks if the given <paramref name="type" /> is convertable to string and can be stored as such.
+        /// </summary>
+        protected virtual bool IsStringConvertable(Type type)
+        {
+            return DefaultStringSerializableTypes.Contains(type);
+        }
+
+        private static readonly Type[] DefaultStringSerializableTypes = 
+        {
+            typeof (byte),
+            typeof (short),
+            typeof (ushort),
+            typeof (int),
+            typeof (uint),
+            typeof (long),
+            typeof (ulong),
+            typeof (float),
+            typeof (double),
+            typeof (decimal),
+            typeof (bool),
+            typeof (Uri),
+            typeof (Guid),
+            typeof (DateTime),
+            typeof (DateTimeOffset),
+        };
+
+        private static Type UnwrapNullableType<T>()
+        {
+            var type = typeof(T);
+            if (type.IsNullable())
+            {
+                type = Nullable.GetUnderlyingType(type);
+            }
+
+            return type;
         }
 
         public T GetValueOrDefault<T>(string key, T defaultValue = default(T))
         {
             Guard.ArgumentNotNullOrEmpty(key, nameof(key));
 
-            object value = defaultValue;
+            object value = null;
 
             lock (this.locker)
             {
-                var type = typeof(T);
-                if (type.IsNullable())
-                {
-                    type = Nullable.GetUnderlyingType(type);
-                }
+                var type = UnwrapNullableType<T>();
 
-                this.tracer.Debug($"{nameof(this.GetValueOrDefault)}<{type.GetFormattedName()}>(key: \"{key}\")");
+                this.Tracer.Debug($"{nameof(this.GetValueOrDefault)}<{type.GetFormattedName()}>(key: \"{key}\")");
 
                 if (this.IsNativeType(type))
                 {
                     value = this.GetValueOrDefaultFunction(key, defaultValue);
                 }
-
-                else if (type == typeof(decimal))
+                else if (this.IsStringConvertable(type))
                 {
-                    var savedDecimal = this.GetValueOrDefaultFunction<string>(key, null);
-                    if (savedDecimal != null)
-                    {
-                        value = Convert.ToDecimal(savedDecimal, CultureInfo.InvariantCulture);
-                    }
-                }
-                else if (type == typeof(DateTime))
-                {
-                    var stringDateTime = this.GetValueOrDefaultFunction<string>(key, null);
-                    if (stringDateTime != null)
-                    {
-                        var serializableDateTime = stringDateTime.DeserializeFromXml<SerializableDateTime>();
-                        if (serializableDateTime != SerializableDateTime.Undefined)
-                        {
-                            value = new DateTime(serializableDateTime.Ticks, serializableDateTime.Kind);
-                        }
-                    }
-                }
-                else if (type == typeof(Uri))
-                {
-                    string uriString = this.GetValueOrDefaultFunction<string>(key, null);
-                    value = new Uri(uriString);
+                    value = this.GetValueOrDefaultFunction(key, defaultValue);
                 }
                 else
                 {
-                    value = this.DefaultDeserialization(key, defaultValue);
+                    var xmlSerializedObject = (string)this.GetValueOrDefaultFunction<string>(key, null);
+                    if (xmlSerializedObject != null)
+                    {
+                        value = xmlSerializedObject.DeserializeFromXml<T>();
+                    }
                 }
             }
 
-            return null != value ? (T)value : defaultValue;
-        }
-
-        protected virtual object DefaultDeserialization<T>(string key, T defaultValue)
-        {
-            var serializedObject = this.GetValueOrDefaultFunction<string>(key, null);
-            if (serializedObject != null)
-            {
-                return Convert.ToString(serializedObject, CultureInfo.InvariantCulture).DeserializeFromXml<T>();
-            }
-
-            return defaultValue;
+            return this.ConverterRegistry.TryConvert(value, defaultValue);
         }
 
         public void AddOrUpdateValue<T>(string key, T value)
@@ -140,53 +160,23 @@ namespace CrossPlatformLibrary.Settings
 
             lock (this.locker)
             {
-                var type = typeof(T);
-                if (type.IsNullable())
-                {
-                    type = Nullable.GetUnderlyingType(type);
-                }
+                var type = UnwrapNullableType<T>();
 
-                this.tracer.Debug($"{nameof(this.AddOrUpdateValue)}<{type.GetFormattedName()}>(key: \"{key}\")");
+                this.Tracer.Debug($"{nameof(this.AddOrUpdateValue)}<{type.GetFormattedName()}>(key: \"{key}\")");
 
                 if (this.IsNativeType(type))
                 {
-                    string serializedValue;
-                    var formattable = value as IFormattable;
-                    if (formattable != null)
-                    {
-                        string formatter;
-                        this.formatMapping.TryGetValue(typeof(T), out formatter);
-
-                        serializedValue = formattable.ToString(formatter, CultureInfo.InvariantCulture);
-                    }
-                    else
-                    {
-                        serializedValue = value.ToString();
-                    }
-
+                    this.AddOrUpdateValueFunction(key, value);
+                }
+                else if (this.IsStringConvertable(type))
+                {
+                    string serializedValue = this.converterRegistry.Convert<string>(value);
                     this.AddOrUpdateValueFunction(key, serializedValue);
-                }
-                else if (type == typeof(decimal))
-                {
-                    string decimalString = Convert.ToString(value, CultureInfo.InvariantCulture);
-                    this.AddOrUpdateValueFunction(key, decimalString);
-                }
-                else if (type == typeof(DateTime))
-                {
-                    var dateTime = Convert.ToDateTime(value, CultureInfo.InvariantCulture);
-                    var serializableDateTime = SerializableDateTime.FromDateTime(dateTime);
-                    string stringDateTime = serializableDateTime.SerializeToXml(preserveTypeInformation: true);
-                    this.AddOrUpdateValueFunction(key, stringDateTime);
-                }
-                else if (type == typeof(Uri))
-                {
-                    string uriString = value.ToString();
-                    this.AddOrUpdateValueFunction(key, uriString);
                 }
                 else
                 {
-                    string serializedString = value.SerializeToXml(preserveTypeInformation: true);
-                    this.AddOrUpdateValueFunction(key, serializedString);
+                    string xmlSerializedObject = value.SerializeToXml(preserveTypeInformation: true);
+                    this.AddOrUpdateValueFunction(key, xmlSerializedObject);
                 }
             }
         }
