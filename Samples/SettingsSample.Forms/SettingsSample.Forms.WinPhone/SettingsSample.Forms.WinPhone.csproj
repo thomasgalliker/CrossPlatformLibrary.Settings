@@ -113,16 +113,16 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="CrossPlatformLibrary, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\CrossPlatformLibrary.2.0.0-pre10\lib\wpa81\CrossPlatformLibrary.dll</HintPath>
+    <Reference Include="CrossPlatformLibrary, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\CrossPlatformLibrary.2.0.1-pre2\lib\wpa81\CrossPlatformLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CrossPlatformLibrary.Settings, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\CrossPlatformLibrary.Settings.2.0.0-pre8\lib\wpa81\CrossPlatformLibrary.Settings.dll</HintPath>
+    <Reference Include="CrossPlatformLibrary.Settings, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\CrossPlatformLibrary.Settings.2.0.1-pre5\lib\wpa81\CrossPlatformLibrary.Settings.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Guards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ac6aedb73a72f46e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Guards.1.0.13-pre1\lib\wpa81\Guards.dll</HintPath>
+      <HintPath>..\..\..\packages\Guards.1.0.13\lib\wpa81\Guards.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -133,8 +133,8 @@
       <HintPath>..\..\..\packages\Tracing.1.0.3-pre3\lib\wpa81\Tracing.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\TypeConverter.1.0.27\lib\wpa81\TypeConverter.dll</HintPath>
+    <Reference Include="TypeConverter, Version=1.0.28.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\TypeConverter.1.0.28-pre7\lib\wpa81\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -163,6 +163,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
