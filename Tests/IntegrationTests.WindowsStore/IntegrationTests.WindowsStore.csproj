@@ -137,12 +137,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="CrossPlatformLibrary, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CrossPlatformLibrary.2.0.0-pre10\lib\win81\CrossPlatformLibrary.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="CrossPlatformLibrary.Settings, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CrossPlatformLibrary.Settings.2.0.0-pre8\lib\win81\CrossPlatformLibrary.Settings.dll</HintPath>
+    <Reference Include="CrossPlatformLibrary, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CrossPlatformLibrary.2.0.1-pre2\lib\win81\CrossPlatformLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.14.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
@@ -154,7 +150,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Guards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ac6aedb73a72f46e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Guards.1.0.13-pre1\lib\win81\Guards.dll</HintPath>
+      <HintPath>..\..\packages\Guards.1.0.13\lib\win81\Guards.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -165,8 +161,8 @@
       <HintPath>..\..\packages\Tracing.1.0.3-pre3\lib\win81\Tracing.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TypeConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\TypeConverter.1.0.27\lib\win81\TypeConverter.dll</HintPath>
+    <Reference Include="TypeConverter, Version=1.0.28.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\TypeConverter.1.0.28-pre7\lib\win81\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -215,9 +211,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CrossPlatformLibrary.Settings.WindowsStore\CrossPlatformLibrary.Settings.WindowsStore.csproj">
+      <Project>{ed9a4ca1-c04c-457d-9a2e-7995ccf12356}</Project>
+      <Name>CrossPlatformLibrary.Settings.WindowsStore</Name>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\CrossPlatformLibrary.Settings.IntegrationTests\IntegrationTests.csproj">
       <Project>{10332c36-d054-41ca-8997-da71a8cbc867}</Project>
       <Name>IntegrationTests</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">

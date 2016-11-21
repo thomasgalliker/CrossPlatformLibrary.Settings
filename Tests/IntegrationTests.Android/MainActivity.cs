@@ -1,8 +1,6 @@
 ﻿
 using Android.App;
 using Android.OS;
-
-using CrossPlatformLibrary.Bootstrapping;
 using CrossPlatformLibrary.Settings.IntegrationTests;
 
 using Xunit.Runners.UI;
@@ -14,8 +12,8 @@ namespace IntegrationTests.Android
     {
         protected override void OnCreate(Bundle bundle)
         {
-            var bootstrapper = new Bootstrapper();
-            bootstrapper.Startup();
+            //var bootstrapper = new Bootstrapper();
+            //bootstrapper.Startup();
 
             // tests can be inside the main assembly
             this.AddTestAssembly(typeof(SettingsServiceTests).Assembly);

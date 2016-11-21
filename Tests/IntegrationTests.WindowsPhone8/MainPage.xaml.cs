@@ -14,8 +14,8 @@ namespace IntegrationTests.WindowsPhone8
 
         protected override void OnInitializeRunner()
         {
-            var bootstrapper = new Bootstrapper();
-            bootstrapper.Startup();
+            //var bootstrapper = new Bootstrapper();
+            //bootstrapper.Startup();
 
             this.AddTestAssembly(typeof(SettingsServiceTests).Assembly);
         }

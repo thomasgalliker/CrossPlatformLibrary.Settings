@@ -1,34 +1,18 @@
-﻿using System;
-using System.IO.IsolatedStorage;
+﻿using System.IO.IsolatedStorage;
 
 using Tracing;
-using Guards;
 
 using TypeConverter;
 
 namespace CrossPlatformLibrary.Settings
 {
-    public class SettingsService : ISettingsService
+    public class SettingsService : SettingsServiceBase
     {
-        private readonly object locker = new object();
-        private readonly ITracer tracer;
-        private readonly IConverterRegistry converterRegistry;
+        private static readonly object Locker = new object();
 
         public SettingsService(ITracer tracer, IConverterRegistry converterRegistry)
+            : base(tracer, converterRegistry)
         {
-            Guard.ArgumentNotNull(() => tracer);
-            Guard.ArgumentNotNull(() => converterRegistry);
-
-            this.tracer = tracer;
-            this.converterRegistry = converterRegistry;
-        }
-
-        public IConverterRegistry ConverterRegistry
-        {
-            get
-            {
-                return this.converterRegistry;
-            }
         }
 
         private static IsolatedStorageSettings IsoSettings
@@ -39,32 +23,26 @@ namespace CrossPlatformLibrary.Settings
             }
         }
 
-        public T GetValueOrDefault<T>(string key, T defaultValue = default(T))
+        protected override object GetValueOrDefaultFunction<T>(string key, T defaultValue)
         {
-            Type targetType = typeof(T);
-            this.tracer.Debug("GetValueOrDefault with key={0} of type {1}", key, targetType);
-
-            T value = defaultValue;
-            lock (this.locker)
+            lock (Locker)
             {
                 if (IsoSettings.Contains(key))
                 {
                     var settingsValue = IsoSettings[key];
                     if (settingsValue != null)
                     {
-                        value = this.converterRegistry.TryConvert(settingsValue, defaultValue);
+                        return settingsValue;
                     }
                 }
             }
 
-            return value;
+            return defaultValue;
         }
 
-        public void AddOrUpdateValue<T>(string key, T value)
+        protected override void AddOrUpdateValueFunction<T>(string key, T value)
         {
-            this.tracer.Debug("AddOrUpdateValue with key={0} of type {1}", key, typeof(T));
-
-            lock (this.locker)
+            lock (Locker)
             {
                 if (IsoSettings.Contains(key))
                 {

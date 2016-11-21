@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IO.IsolatedStorage;
+
 using Tracing;
 
 using TypeConverter;
@@ -11,7 +11,7 @@ namespace CrossPlatformLibrary.Settings
     {
         private readonly IsolatedStorageFile store;
 
-        public SettingsService(ITracer tracer, IConverterRegistry converterRegistry) 
+        public SettingsService(ITracer tracer, IConverterRegistry converterRegistry)
             : base(tracer, converterRegistry)
         {
             this.store = IsolatedStorageFile.GetMachineStoreForAssembly();
@@ -28,28 +28,20 @@ namespace CrossPlatformLibrary.Settings
             }
         }
 
-
-
-        protected override T GetValueOrDefaultFunction<T>(string key, T defaultValue)
+        protected override object GetValueOrDefaultFunction<T>(string key, T defaultValue)
         {
-            T value = defaultValue;
-
             if (this.store.FileExists(key))
             {
                 using (var stream = this.store.OpenFile(key, FileMode.Open))
                 {
-                    using (var sr = new StreamReader(stream))
+                    using (var streamReader = new StreamReader(stream))
                     {
-                        var settingsValue = sr.ReadToEnd();
-                        if (settingsValue != null)
-                        {
-                            value = this.TryConvert(settingsValue, defaultValue);
-                        }
+                        return streamReader.ReadToEnd();
                     }
                 }
             }
 
-            return value;
+            return defaultValue;
         }
 
         ////public void Remove(string key)

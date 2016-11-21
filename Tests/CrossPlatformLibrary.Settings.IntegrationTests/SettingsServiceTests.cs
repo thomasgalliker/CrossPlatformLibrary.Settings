@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 
 using CrossPlatformLibrary.Bootstrapping;
+using CrossPlatformLibrary.Extensions;
 using CrossPlatformLibrary.IoC;
 using CrossPlatformLibrary.Settings.IntegrationTests.Stubs;
 
@@ -34,7 +35,6 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
                 bootstrapper.Startup();
             }
 
-
             ////var settingsService = SimpleIoc.Default.GetInstance<ISettingsService>();
             ////settingsService.RemoveAll();
         }
@@ -47,10 +47,11 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
             // Arrange
             var inputValue = testValue.Value;
 
-            this.testOutputHelper.WriteLine($"TestValue.Value={testValue.Value}, TestValue.Type={testValue.Type}");
+            this.testOutputHelper.WriteLine($"TestValue.Value={testValue.Value}");
+            this.testOutputHelper.WriteLine($"TestValue.Type={testValue.Value.GetType().GetFormattedName()}");
 
             // Act
-            var outputValue = ReadWriteValueOfType(inputValue, testValue.Type);
+            var outputValue = ReadWriteValueOfType(inputValue, inputValue.GetType());
 
             // Assert
             outputValue.Should().Be(inputValue);
@@ -60,25 +61,27 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         {
             private readonly List<object[]> data = new List<object[]>
             {
-                //new object[] { new TestValue<bool>(true) },
-                //new object[] { new TestValue<short>(short.MaxValue) },
-                //new object[] { new TestValue<ushort>(ushort.MaxValue) },
-                //new object[] { new TestValue<int>(int.MaxValue) },
-                //new object[] { new TestValue<uint>(uint.MaxValue) },
-                new object[] { new TestValue<float>(float.MaxValue) },
+                new object[] { new TestValue<bool>(false) },
+                new object[] { new TestValue<bool>(true) },
+                new object[] { new TestValue<short>(short.MaxValue) },
+                new object[] { new TestValue<ushort>(ushort.MaxValue) },
+                new object[] { new TestValue<int>(int.MaxValue) },
+                new object[] { new TestValue<uint>(uint.MaxValue) },
                 new object[] { new TestValue<float>(float.MinValue) },
+                new object[] { new TestValue<float?>(123.999f) },
+                new object[] { new TestValue<float>(float.MaxValue) },
                 new object[] { new TestValue<double>(double.MaxValue) },
                 new object[] { new TestValue<double>(double.MinValue) },
+                new object[] { new TestValue<long?>(123L) },
                 new object[] { new TestValue<long>(long.MaxValue) },
                 new object[] { new TestValue<long>(long.MinValue) },
                 new object[] { new TestValue<ulong>(ulong.MaxValue) },
                 new object[] { new TestValue<decimal>(decimal.MaxValue) },
                 new object[] { new TestValue<string>(new string('*', 10)) },
                 new object[] { new TestValue<byte>(byte.MaxValue) },
-                new object[] { new TestValue<Uri>(new Uri("http://www.thomasgalliker.ch")) },
-                new object[] { new TestValue<Guid>(Guid.NewGuid()) },
-                new object[] { new TestValue<DateTime>(DateTime.Now.ToLocalTime()) },
-                new object[] { new TestValue<DateTime>(DateTime.Now.ToUniversalTime()) },
+                //new object[] { new TestValue<Guid>(Guid.NewGuid()) },
+                //new object[] { new TestValue<DateTime>(DateTime.Now.ToLocalTime()) },
+                //new object[] { new TestValue<DateTime>(DateTime.Now.ToUniversalTime()) },
             };
 
             public IEnumerator<object[]> GetEnumerator()
@@ -96,13 +99,13 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         public void ShouldReadWriteBool()
         {
             // Arrange
-            bool inputValue = true;
+            const bool InputValue = true;
 
             // Act
-            var outputValue = ReadWriteValueOfType(inputValue);
+            var outputValue = ReadWriteValueOfType(InputValue);
 
             // Assert
-            outputValue.Should().Be(inputValue);
+            outputValue.Should().Be(InputValue);
         }
 
         [Fact]
@@ -252,20 +255,20 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         public void ShouldReadWriteDateTimeAsUniversalTime()
         {
             // Arrange
-            var inputValue = DateTime.Now.ToLocalTime();
+            var inputValue = DateTime.Now.ToUniversalTime();
 
             // Act
             var outputValue = ReadWriteValueOfType(inputValue);
 
             // Assert
-            outputValue.Ticks.Should().Be(inputValue.Ticks);
+            outputValue.ToUniversalTime().Ticks.Should().Be(inputValue.Ticks);
         }
 
         [Fact]
         public void ShouldReadWriteDateTimeAsLocalTime()
         {
             // Arrange
-            var inputValue = DateTime.Now.ToUniversalTime();
+            var inputValue = DateTime.Now.ToLocalTime();
 
             // Act
             var outputValue = ReadWriteValueOfType(inputValue);
@@ -316,7 +319,7 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
             outputValue.ElementAt(1).Age.Should().Be(personList.ElementAt(1).Age);
         }
 
-        #region Migration Tests
+#region Migration Tests
 
         [Fact]
         public void ShouldMigrateGuidToString()
@@ -329,7 +332,7 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
 
             // Assert
             migrationResult.From.Should().Be(originalValue);
-            migrationResult.To.Should().Be(originalValue.ToString());
+            migrationResult.To.Should().Be(originalValue.ToString("B"));
         }
 
         [Fact]
@@ -358,7 +361,7 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
             return new MigrationResult<TFrom, TTo>(originalValue, migratedValue);
         }
 
-        #endregion
+#endregion
 
         private static T ReadWriteValueOfType<T>(T inputValue, string key = null)
         {
@@ -415,20 +418,30 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         public interface ITestValue
         {
             object Value { get; }
-            Type Type { get; }
         }
 
-        private class TestValue<T> : ITestValue
+        private class TestValue<T> : ITestValue, IXunitSerializable
         {
             public TestValue(T value)
             {
                 this.Value = value;
                 this.Type = typeof(T);
             }
+            
+            public object Value { get; set; }
 
-            public Type Type { get; }
+            public Type Type { get; set; }
 
-            public object Value { get; }
+            public void Deserialize(IXunitSerializationInfo info)
+            {
+                this.Value = info.GetValue<T>("Value");
+                this.Type = typeof(T);
+            }
+
+            public void Serialize(IXunitSerializationInfo info)
+            {
+                info.AddValue("Value", this.Value, typeof(T));
+            }
         }
     }
 }
