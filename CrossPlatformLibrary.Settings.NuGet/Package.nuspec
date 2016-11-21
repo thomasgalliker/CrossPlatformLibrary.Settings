@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>CrossPlatformLibrary.Settings</id>
-    <version>2.0.1-pre5</version>
+    <version>2.0.1-pre6</version>
     <title>CrossPlatformLibrary.Settings</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -17,8 +17,8 @@
     </tags>
     <releaseNotes>
       2.0.1-pre
-      - Refactor to bait-and-switch PCL
-      
+      - Refactored to bait-and-switch pattern
+
       1.0.26
       - Added support for .Net Framework 4.5
       - Bugfix for reading default value of DateTime settings
@@ -49,10 +49,10 @@
     <file src="..\CrossPlatformLibrary.Settings.Android\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\monoandroid10\CrossPlatformLibrary.Settings.pdb" />
     <file src="..\CrossPlatformLibrary.Settings.Android\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\monoandroid10\CrossPlatformLibrary.Settings.xml" />
 
-    <!--Xamarin.iOS Classic API-->
-    <file src="..\CrossPlatformLibrary.Settings.iOS\bin\iPhone\Release\CrossPlatformLibrary.Settings.dll" target="lib\monotouch10\CrossPlatformLibrary.Settings.dll" />
+    <!--Xamarin.iOS Classic API IS NO LONGER SUPPORTED --> 
+    <!--<file src="..\CrossPlatformLibrary.Settings.iOS\bin\iPhone\Release\CrossPlatformLibrary.Settings.dll" target="lib\monotouch10\CrossPlatformLibrary.Settings.dll" />
     <file src="..\CrossPlatformLibrary.Settings.iOS\bin\iPhone\Release\CrossPlatformLibrary.Settings.pdb" target="lib\monotouch10\CrossPlatformLibrary.Settings.pdb" />
-    <file src="..\CrossPlatformLibrary.Settings.iOS\bin\iPhone\Release\CrossPlatformLibrary.Settings.xml" target="lib\monotouch10\CrossPlatformLibrary.Settings.xml" />
+    <file src="..\CrossPlatformLibrary.Settings.iOS\bin\iPhone\Release\CrossPlatformLibrary.Settings.xml" target="lib\monotouch10\CrossPlatformLibrary.Settings.xml" />-->
 
     <!--Xamarin.iOS Unified API-->
     <file src="..\CrossPlatformLibrary.Settings.iOSUnified\bin\iPhone\Release\CrossPlatformLibrary.Settings.dll" target="lib\xamarin.ios10\CrossPlatformLibrary.Settings.dll" />
