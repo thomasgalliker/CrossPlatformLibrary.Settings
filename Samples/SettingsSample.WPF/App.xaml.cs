@@ -11,6 +11,7 @@ namespace SettingsSample.WPF
         protected App()
         {
             this.bootstrapper = new SettingsSampleBootstrapper();
+            this.bootstrapper.Startup();
         }
 
         protected override void OnStartup(StartupEventArgs e)
