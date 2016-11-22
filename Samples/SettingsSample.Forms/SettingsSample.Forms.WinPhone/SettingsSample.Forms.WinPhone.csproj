@@ -114,7 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CrossPlatformLibrary, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\CrossPlatformLibrary.2.0.1-pre2\lib\wpa81\CrossPlatformLibrary.dll</HintPath>
+      <HintPath>..\..\..\packages\CrossPlatformLibrary.2.0.1-pre3\lib\wpa81\CrossPlatformLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CrossPlatformLibrary.Settings, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">

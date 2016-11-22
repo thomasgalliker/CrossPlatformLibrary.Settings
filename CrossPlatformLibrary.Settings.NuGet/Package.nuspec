@@ -49,11 +49,6 @@
     <file src="..\CrossPlatformLibrary.Settings.Android\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\monoandroid10\CrossPlatformLibrary.Settings.pdb" />
     <file src="..\CrossPlatformLibrary.Settings.Android\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\monoandroid10\CrossPlatformLibrary.Settings.xml" />
 
-    <!--Xamarin.iOS Classic API IS NO LONGER SUPPORTED --> 
-    <!--<file src="..\CrossPlatformLibrary.Settings.iOS\bin\iPhone\Release\CrossPlatformLibrary.Settings.dll" target="lib\monotouch10\CrossPlatformLibrary.Settings.dll" />
-    <file src="..\CrossPlatformLibrary.Settings.iOS\bin\iPhone\Release\CrossPlatformLibrary.Settings.pdb" target="lib\monotouch10\CrossPlatformLibrary.Settings.pdb" />
-    <file src="..\CrossPlatformLibrary.Settings.iOS\bin\iPhone\Release\CrossPlatformLibrary.Settings.xml" target="lib\monotouch10\CrossPlatformLibrary.Settings.xml" />-->
-
     <!--Xamarin.iOS Unified API-->
     <file src="..\CrossPlatformLibrary.Settings.iOSUnified\bin\iPhone\Release\CrossPlatformLibrary.Settings.dll" target="lib\xamarin.ios10\CrossPlatformLibrary.Settings.dll" />
     <file src="..\CrossPlatformLibrary.Settings.iOSUnified\bin\iPhone\Release\CrossPlatformLibrary.Settings.pdb" target="lib\xamarin.ios10\CrossPlatformLibrary.Settings.pdb" />
