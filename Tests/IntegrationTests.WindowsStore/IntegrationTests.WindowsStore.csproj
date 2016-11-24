@@ -214,7 +214,6 @@
     <ProjectReference Include="..\..\CrossPlatformLibrary.Settings.WindowsStore\CrossPlatformLibrary.Settings.WindowsStore.csproj">
       <Project>{ed9a4ca1-c04c-457d-9a2e-7995ccf12356}</Project>
       <Name>CrossPlatformLibrary.Settings.WindowsStore</Name>
-      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrossPlatformLibrary.Settings.IntegrationTests\IntegrationTests.csproj">
       <Project>{10332c36-d054-41ca-8997-da71a8cbc867}</Project>
