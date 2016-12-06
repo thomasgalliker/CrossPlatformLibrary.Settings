@@ -9,29 +9,35 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
-    <Button Grid.Row="0"
+
+    <!--TitlePanel contains the name of the application and page title-->
+    <StackLayout Grid.Row="0" Padding="12,17,0,28">
+      <Label Text="CrossPlatformLibrary.Settings"/>
+      <Label Text="Demo App"/>
+    </StackLayout>
+    
+    <Button Grid.Row="1"
             x:Name="AddSettingsButton"
-            Text="Add Settings"
+            Text="NumberOfClicks++;"
             Clicked="OnButtonAddSettingsClicked"
             VerticalOptions="Start"
             HorizontalOptions="StartAndExpand"/>
 
-    <Button Grid.Row="0"
+    <Button Grid.Row="2"
             x:Name="GetSettingsButton"
-            Text="Get Settings"
+            Text="Get NumberOfClicks"
             Clicked="OnButtonGetSettingsClicked"
             VerticalOptions="Start"
             HorizontalOptions="StartAndExpand"/>
     
-       <Button Grid.Row="0"
+       <Button Grid.Row="3"
             x:Name="ResetSettingsButton"
-            Text="Get Settings"
+            Text="Reset Settings"
             Clicked="OnButtonResetSettingsClicked"
             VerticalOptions="Start"
             HorizontalOptions="StartAndExpand"/>
-
-    <Label Grid.Row="1" x:Name="LocationOutput" Text="No position retrieved"/>
   </Grid>
 </ContentPage>

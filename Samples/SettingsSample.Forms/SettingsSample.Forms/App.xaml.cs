@@ -1,12 +1,19 @@
-﻿using Xamarin.Forms;
+﻿using CrossPlatformLibrary.Bootstrapping;
+
+using Xamarin.Forms;
 
 namespace SettingsSample.Forms
 {
     public partial class App : Application
     {
+        private readonly IBootstrapper bootstrapper;
+
         public App()
         {
             this.InitializeComponent();
+
+            this.bootstrapper = new SettingsSampleBootstrapper();
+            this.bootstrapper.Startup();
 
             this.MainPage = new MainPage();
         }
