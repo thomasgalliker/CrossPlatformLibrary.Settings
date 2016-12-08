@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>CrossPlatformLibrary.Settings</id>
-    <version>2.0.1-pre6</version>
+    <version>2.0.1-pre8</version>
     <title>CrossPlatformLibrary.Settings</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -31,7 +31,7 @@
     <language>en-US</language>
     <dependencies>
       <group>
-        <dependency id="CrossPlatformLibrary" version="(1.99.99,)" />
+        <dependency id="CrossPlatformLibrary" version="[2.0.0,)" />
         <dependency id="Guards" version="[1.0.11,)" />
         <dependency id="TypeConverter" version="[1.0.27,)"/>
         <dependency id="XmlSerializerHelper" version="[3.0.0,)" />
