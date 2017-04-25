@@ -124,7 +124,7 @@ namespace CrossPlatformLibrary.Settings
         {
             Guard.ArgumentNotNullOrEmpty(key, nameof(key));
 
-            object value = null;
+            object value = default(T);
 
             lock (this.locker)
             {
