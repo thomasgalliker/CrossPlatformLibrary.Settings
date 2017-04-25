@@ -51,7 +51,7 @@
           "lib/uap10.0/CrossPlatformLibrary.Settings.dll": {}
         }
       },
-      "Guards/1.0.13": {
+      "Guards/1.0.14": {
         "compile": {
           "lib/win81/Guards.dll": {}
         },
@@ -2178,7 +2178,7 @@
           "lib/uap10.0/CrossPlatformLibrary.Settings.dll": {}
         }
       },
-      "Guards/1.0.13": {
+      "Guards/1.0.14": {
         "compile": {
           "lib/win81/Guards.dll": {}
         },
@@ -4385,7 +4385,7 @@
           "lib/uap10.0/CrossPlatformLibrary.Settings.dll": {}
         }
       },
-      "Guards/1.0.13": {
+      "Guards/1.0.14": {
         "compile": {
           "lib/win81/Guards.dll": {}
         },
@@ -6631,7 +6631,7 @@
           "lib/uap10.0/CrossPlatformLibrary.Settings.dll": {}
         }
       },
-      "Guards/1.0.13": {
+      "Guards/1.0.14": {
         "compile": {
           "lib/win81/Guards.dll": {}
         },
@@ -8847,7 +8847,7 @@
           "lib/uap10.0/CrossPlatformLibrary.Settings.dll": {}
         }
       },
-      "Guards/1.0.13": {
+      "Guards/1.0.14": {
         "compile": {
           "lib/win81/Guards.dll": {}
         },
@@ -11102,7 +11102,7 @@
           "lib/uap10.0/CrossPlatformLibrary.Settings.dll": {}
         }
       },
-      "Guards/1.0.13": {
+      "Guards/1.0.14": {
         "compile": {
           "lib/win81/Guards.dll": {}
         },
@@ -13318,7 +13318,7 @@
           "lib/uap10.0/CrossPlatformLibrary.Settings.dll": {}
         }
       },
-      "Guards/1.0.13": {
+      "Guards/1.0.14": {
         "compile": {
           "lib/win81/Guards.dll": {}
         },
@@ -15643,11 +15643,12 @@
         "tools/uninstall.ps1"
       ]
     },
-    "Guards/1.0.13": {
-      "sha512": "NB85Q9lMDlaEjgoBSVKrjNStjV5o7TXW5uoppgZNP8LWuCYz3Sl/EauPP0cLhXxhnbar0VyIbZL2skEXSnS5+w==",
+    "Guards/1.0.14": {
+      "sha512": "ulwm77zkweSYn+Vk4U2Y9wn4+4bmXcSTnnvQwlVWeh5QvDDsI7to8Ro01v1hUgA/eET8HPXWgvQhtDpFcprkeA==",
       "type": "package",
+      "path": "Guards/1.0.14",
       "files": [
-        "Guards.1.0.13.nupkg.sha512",
+        "Guards.1.0.14.nupkg.sha512",
         "Guards.nuspec",
         "lib/MonoAndroid10/Guards.dll",
         "lib/MonoAndroid10/Guards.pdb",
@@ -21964,7 +21965,7 @@
       "CrossPlatformLibrary >= 2.0.1-pre3",
       "CrossPlatformLibrary.Callouts >= 2.0.0-pre5",
       "CrossPlatformLibrary.Settings >= 2.0.1-pre6",
-      "Guards >= 1.0.13",
+      "Guards >= 1.0.14",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",
       "Tracing >= 1.0.3-pre3",
       "Xamarin.Forms >= 2.3.3.168"

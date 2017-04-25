@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="NuGetPackage.ps1" />
+    <None Include="packages.config" />
     <None Include="UpdateAssemblyInfo.ps1" />
     <None Include="NuGetSetup.ps1" />
     <None Include="NuGet.exe" />
@@ -67,6 +68,12 @@
     <Folder Include="content\" />
     <Folder Include="lib\" />
     <Folder Include="src\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Guards, Version=1.0.14.0, Culture=neutral, PublicKeyToken=ac6aedb73a72f46e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Guards.1.0.14\lib\net35\Guards.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="BeforeBuild">

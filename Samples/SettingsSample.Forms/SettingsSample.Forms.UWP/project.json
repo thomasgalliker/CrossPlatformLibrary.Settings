@@ -4,7 +4,7 @@
     "CrossPlatformLibrary": "2.0.1-pre3",
     "CrossPlatformLibrary.Callouts": "2.0.0-pre5",
     "CrossPlatformLibrary.Settings": "2.0.1-pre6",
-    "Guards": "1.0.13",
+    "Guards": "1.0.14",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Tracing": "1.0.3-pre3",
     "Xamarin.Forms": "2.3.3.168"
