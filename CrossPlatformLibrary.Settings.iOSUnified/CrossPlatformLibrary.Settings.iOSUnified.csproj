@@ -64,12 +64,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TypeConverter, Version=1.0.28.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeConverter.1.0.28-pre7\lib\xamarin.ios10\TypeConverter.dll</HintPath>
+      <HintPath>..\packages\TypeConverter.1.0.28-pre92\lib\xamarin.ios10\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="XmlSerializerHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XmlSerializerHelper.3.0.0\lib\xamarin.ios10\XmlSerializerHelper.dll</HintPath>
+    <Reference Include="XmlSerializerHelper, Version=3.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XmlSerializerHelper.3.0.2-pre2\lib\xamarin.ios10\XmlSerializerHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

@@ -46,8 +46,8 @@
       <HintPath>..\..\packages\CrossPlatformLibrary.Callouts.2.0.0-pre5\lib\portable-net45+dnxcore50+wp80+wpa81+win81+netcore45+monoandroid10+monotouch10+xamarin.ios10\CrossPlatformLibrary.Callouts.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CrossPlatformLibrary.Settings, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CrossPlatformLibrary.Settings.2.0.1-pre6\lib\portable-net45+dnxcore50+wp80+wpa81+win81+netcore45+monoandroid10+monotouch10+xamarin.ios10\CrossPlatformLibrary.Settings.dll</HintPath>
+    <Reference Include="CrossPlatformLibrary.Settings, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CrossPlatformLibrary.Settings.2.0.2-pre7\lib\portable-net45+dnxcore50+wp80+wpa81+win81+netcore45+monoandroid10+monotouch10+xamarin.ios10\CrossPlatformLibrary.Settings.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Guards, Version=1.0.14.0, Culture=neutral, PublicKeyToken=ac6aedb73a72f46e, processorArchitecture=MSIL">
@@ -63,11 +63,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TypeConverter, Version=1.0.28.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\TypeConverter.1.0.28-pre7\lib\portable-net45+wp8+wpa81+win81+netcore45+monoandroid1+xamarin.ios10\TypeConverter.dll</HintPath>
+      <HintPath>..\..\packages\TypeConverter.1.0.28-pre92\lib\portable-net45+wp8+wpa81+win81+netcore45+monoandroid1+xamarin.ios10\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XmlSerializerHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\XmlSerializerHelper.3.0.0\lib\portable-net45+wp8+win8+wpa81\XmlSerializerHelper.dll</HintPath>
+    <Reference Include="XmlSerializerHelper, Version=3.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\XmlSerializerHelper.3.0.2-pre2\lib\portable-net45+wp8+win8+wpa81\XmlSerializerHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

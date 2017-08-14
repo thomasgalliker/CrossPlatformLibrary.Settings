@@ -5,8 +5,8 @@
     "Guards": "1.0.14",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Tracing": "1.0.3-pre3",
-    "TypeConverter": "1.0.28-pre7",
-    "XmlSerializerHelper": "3.0.0"
+    "TypeConverter": "1.0.28-pre92",
+    "XmlSerializerHelper": "3.0.2-pre2"
   },
   "frameworks": {
     "uap10.0": {}

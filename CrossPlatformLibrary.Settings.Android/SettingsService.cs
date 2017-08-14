@@ -23,7 +23,12 @@ namespace CrossPlatformLibrary.Settings
             {
                 using (var sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(Application.Context))
                 {
-                    return sharedPreferences.GetString(key, null);
+                    var value = sharedPreferences.GetString(key, null);
+                    if (value == null)
+                    {
+                        return defaultValue;
+                    }
+                    return value;
                 }
             }
         }

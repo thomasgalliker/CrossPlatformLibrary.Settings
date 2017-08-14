@@ -93,42 +93,45 @@ namespace CrossPlatformLibrary.Settings
         private static readonly Type[] DefaultStringSerializableTypes = 
         {
             typeof (byte),
+            typeof (byte?),
             typeof (short),
+            typeof (short?),
             typeof (ushort),
+            typeof (ushort?),
             typeof (int),
+            typeof (int?),
             typeof (uint),
+            typeof (uint?),
             typeof (long),
+            typeof (long?),
             typeof (ulong),
+            typeof (ulong?),
             typeof (float),
+            typeof (float?),
             typeof (double),
+            typeof (double?),
             typeof (decimal),
+            typeof (decimal?),
             typeof (bool),
+            typeof (bool?),
             typeof (Uri),
             typeof (Guid),
+            typeof (Guid?),
             typeof (DateTime),
+            typeof (DateTime?),
             typeof (DateTimeOffset),
+            typeof (DateTimeOffset?),
         };
-
-        private static Type UnwrapNullableType<T>()
-        {
-            var type = typeof(T);
-            if (type.IsNullable())
-            {
-                type = Nullable.GetUnderlyingType(type);
-            }
-
-            return type;
-        }
 
         public T GetValueOrDefault<T>(string key, T defaultValue = default(T))
         {
             Guard.ArgumentNotNullOrEmpty(key, nameof(key));
 
-            object value = default(T);
+            object value = defaultValue;
 
             lock (this.locker)
             {
-                var type = UnwrapNullableType<T>();
+                var type = typeof(T);
 
                 this.Tracer.Debug($"{nameof(this.GetValueOrDefault)}<{type.GetFormattedName()}>(key: \"{key}\")");
 
@@ -145,22 +148,21 @@ namespace CrossPlatformLibrary.Settings
                     var xmlSerializedObject = (string)this.GetValueOrDefaultFunction<string>(key, null);
                     if (xmlSerializedObject != null)
                     {
-                        value = xmlSerializedObject.DeserializeFromXml<T>();
+                        value = xmlSerializedObject.DeserializeFromXml(type);
                     }
                 }
             }
 
-            return this.ConverterRegistry.TryConvert(value, defaultValue);
+            return this.ConverterRegistry.TryConvert<T>(value, defaultValue);
         }
 
         public void AddOrUpdateValue<T>(string key, T value)
         {
             Guard.ArgumentNotNullOrEmpty(key, nameof(key));
-            Guard.ArgumentNotNull(value, nameof(value));
 
             lock (this.locker)
             {
-                var type = UnwrapNullableType<T>();
+                var type = typeof(T);
 
                 this.Tracer.Debug($"{nameof(this.AddOrUpdateValue)}<{type.GetFormattedName()}>(key: \"{key}\")");
 
@@ -170,12 +172,17 @@ namespace CrossPlatformLibrary.Settings
                 }
                 else if (this.IsStringConvertable(type))
                 {
-                    string serializedValue = this.converterRegistry.Convert<string>(value);
+                    string serializedValue = null;
+                    if (value != null)
+                    {
+                        serializedValue = this.converterRegistry.Convert<string>(value);
+                    }
+                     
                     this.AddOrUpdateValueFunction(key, serializedValue);
                 }
                 else
                 {
-                    string xmlSerializedObject = value.SerializeToXml(preserveTypeInformation: true);
+                    string xmlSerializedObject = value.SerializeToXml(type, preserveTypeInformation: true);
                     this.AddOrUpdateValueFunction(key, xmlSerializedObject);
                 }
             }

@@ -162,7 +162,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TypeConverter, Version=1.0.28.0, Culture=neutral, PublicKeyToken=b1d2d39c48564dfb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\TypeConverter.1.0.28-pre7\lib\win81\TypeConverter.dll</HintPath>
+      <HintPath>..\..\packages\TypeConverter.1.0.28-pre92\lib\win81\TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -185,8 +185,8 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.3.3.168\lib\win81\Xamarin.Forms.Xaml.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XmlSerializerHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\XmlSerializerHelper.3.0.0\lib\win81\XmlSerializerHelper.dll</HintPath>
+    <Reference Include="XmlSerializerHelper, Version=3.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\XmlSerializerHelper.3.0.2-pre2\lib\win81\XmlSerializerHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">

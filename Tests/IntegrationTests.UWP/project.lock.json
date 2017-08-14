@@ -2069,7 +2069,7 @@
           "lib/uap10.0/Tracing.dll": {}
         }
       },
-      "TypeConverter/1.0.28-pre7": {
+      "TypeConverter/1.0.28-pre92": {
         "dependencies": {
           "Guards": "1.0.13"
         },
@@ -2080,7 +2080,7 @@
           "lib/win81/TypeConverter.dll": {}
         }
       },
-      "XmlSerializerHelper/3.0.0": {
+      "XmlSerializerHelper/3.0.2-pre2": {
         "compile": {
           "lib/uap10.0/XmlSerializerHelper.dll": {}
         },
@@ -4316,7 +4316,7 @@
           "lib/uap10.0/Tracing.dll": {}
         }
       },
-      "TypeConverter/1.0.28-pre7": {
+      "TypeConverter/1.0.28-pre92": {
         "dependencies": {
           "Guards": "1.0.13"
         },
@@ -4327,7 +4327,7 @@
           "lib/win81/TypeConverter.dll": {}
         }
       },
-      "XmlSerializerHelper/3.0.0": {
+      "XmlSerializerHelper/3.0.2-pre2": {
         "compile": {
           "lib/uap10.0/XmlSerializerHelper.dll": {}
         },
@@ -6602,7 +6602,7 @@
           "lib/uap10.0/Tracing.dll": {}
         }
       },
-      "TypeConverter/1.0.28-pre7": {
+      "TypeConverter/1.0.28-pre92": {
         "dependencies": {
           "Guards": "1.0.13"
         },
@@ -6613,7 +6613,7 @@
           "lib/win81/TypeConverter.dll": {}
         }
       },
-      "XmlSerializerHelper/3.0.0": {
+      "XmlSerializerHelper/3.0.2-pre2": {
         "compile": {
           "lib/uap10.0/XmlSerializerHelper.dll": {}
         },
@@ -8858,7 +8858,7 @@
           "lib/uap10.0/Tracing.dll": {}
         }
       },
-      "TypeConverter/1.0.28-pre7": {
+      "TypeConverter/1.0.28-pre92": {
         "dependencies": {
           "Guards": "1.0.13"
         },
@@ -8869,7 +8869,7 @@
           "lib/win81/TypeConverter.dll": {}
         }
       },
-      "XmlSerializerHelper/3.0.0": {
+      "XmlSerializerHelper/3.0.2-pre2": {
         "compile": {
           "lib/uap10.0/XmlSerializerHelper.dll": {}
         },
@@ -11153,7 +11153,7 @@
           "lib/uap10.0/Tracing.dll": {}
         }
       },
-      "TypeConverter/1.0.28-pre7": {
+      "TypeConverter/1.0.28-pre92": {
         "dependencies": {
           "Guards": "1.0.13"
         },
@@ -11164,7 +11164,7 @@
           "lib/win81/TypeConverter.dll": {}
         }
       },
-      "XmlSerializerHelper/3.0.0": {
+      "XmlSerializerHelper/3.0.2-pre2": {
         "compile": {
           "lib/uap10.0/XmlSerializerHelper.dll": {}
         },
@@ -13409,7 +13409,7 @@
           "lib/uap10.0/Tracing.dll": {}
         }
       },
-      "TypeConverter/1.0.28-pre7": {
+      "TypeConverter/1.0.28-pre92": {
         "dependencies": {
           "Guards": "1.0.13"
         },
@@ -13420,7 +13420,7 @@
           "lib/win81/TypeConverter.dll": {}
         }
       },
-      "XmlSerializerHelper/3.0.0": {
+      "XmlSerializerHelper/3.0.2-pre2": {
         "compile": {
           "lib/uap10.0/XmlSerializerHelper.dll": {}
         },
@@ -15704,7 +15704,7 @@
           "lib/uap10.0/Tracing.dll": {}
         }
       },
-      "TypeConverter/1.0.28-pre7": {
+      "TypeConverter/1.0.28-pre92": {
         "dependencies": {
           "Guards": "1.0.13"
         },
@@ -15715,7 +15715,7 @@
           "lib/win81/TypeConverter.dll": {}
         }
       },
-      "XmlSerializerHelper/3.0.0": {
+      "XmlSerializerHelper/3.0.2-pre2": {
         "compile": {
           "lib/uap10.0/XmlSerializerHelper.dll": {}
         },
@@ -21937,11 +21937,12 @@
         "tools/uninstall.ps1"
       ]
     },
-    "TypeConverter/1.0.28-pre7": {
-      "sha512": "5eVDchSQW76+ea3C3hwOGNmC9Z3PwBW1ky+sxiSnd4ShkKPXnCE6m02H7pdgyqEe8d2voFNZkr9xS+f+DZicBQ==",
+    "TypeConverter/1.0.28-pre92": {
+      "sha512": "/KTHvI8FEz0+RmmP5Rhvlu9f8k9CqTroDNsVh+pa/2oKTEvig71nr/Ckle3NeCgjBpQgMxgs5zSllTf8ylWhTQ==",
       "type": "package",
+      "path": "TypeConverter/1.0.28-pre92",
       "files": [
-        "TypeConverter.1.0.28-pre7.nupkg.sha512",
+        "TypeConverter.1.0.28-pre92.nupkg.sha512",
         "TypeConverter.nuspec",
         "lib/MonoAndroid10/TypeConverter.dll",
         "lib/MonoAndroid10/TypeConverter.pdb",
@@ -21969,18 +21970,16 @@
         "tools/uninstall.ps1"
       ]
     },
-    "XmlSerializerHelper/3.0.0": {
-      "sha512": "GC8g3Ca6jpKI2cLdLzMKRY8PkVZqFGAeXnxf2BnKNkGmFjd1YpSS41Nlwo6lkhlO/Jzv9COsU7Jzu8t0/6z8Yg==",
+    "XmlSerializerHelper/3.0.2-pre2": {
+      "sha512": "W5ZbNPLFmZUrbIDKW4J0r77yr1mtWF/LWRGVm3xMr45I02yIwz7/W9Pj/tPFFYG5+QVBIph6VIkrj+Q32AA/gw==",
       "type": "package",
+      "path": "XmlSerializerHelper/3.0.2-pre2",
       "files": [
-        "XmlSerializerHelper.3.0.0.nupkg.sha512",
+        "XmlSerializerHelper.3.0.2-pre2.nupkg.sha512",
         "XmlSerializerHelper.nuspec",
         "lib/monoandroid10/XmlSerializerHelper.dll",
         "lib/monoandroid10/XmlSerializerHelper.pdb",
         "lib/monoandroid10/XmlSerializerHelper.xml",
-        "lib/monotouch10/XmlSerializerHelper.dll",
-        "lib/monotouch10/XmlSerializerHelper.pdb",
-        "lib/monotouch10/XmlSerializerHelper.xml",
         "lib/net45/XmlSerializerHelper.dll",
         "lib/net45/XmlSerializerHelper.pdb",
         "lib/net45/XmlSerializerHelper.xml",

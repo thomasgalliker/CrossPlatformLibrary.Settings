@@ -46,12 +46,13 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
         {
             // Arrange
             var inputValue = testValue.Value;
+            var inputType = testValue.GetType().GenericTypeArguments[0];
 
             this.testOutputHelper.WriteLine($"TestValue.Value={testValue.Value}");
-            this.testOutputHelper.WriteLine($"TestValue.Type={testValue.Value.GetType().GetFormattedName()}");
+            this.testOutputHelper.WriteLine($"TestValue.Type={inputType.GetFormattedName()}");
 
             // Act
-            var outputValue = ReadWriteValueOfType(inputValue, inputValue.GetType());
+            var outputValue = ReadWriteValueOfType(inputValue, inputType);
 
             // Assert
             outputValue.Should().Be(inputValue);
@@ -63,22 +64,44 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
             {
                 new object[] { new TestValue<bool>(false) },
                 new object[] { new TestValue<bool>(true) },
+                new object[] { new TestValue<bool?>(null) },
+                new object[] { new TestValue<short>(short.MinValue) },
                 new object[] { new TestValue<short>(short.MaxValue) },
+                new object[] { new TestValue<short?>(null) },
+                new object[] { new TestValue<ushort>(ushort.MinValue) },
                 new object[] { new TestValue<ushort>(ushort.MaxValue) },
+                new object[] { new TestValue<ushort?>(null) },
+                new object[] { new TestValue<int>(int.MinValue) },
                 new object[] { new TestValue<int>(int.MaxValue) },
+                new object[] { new TestValue<int?>(123) },
+                new object[] { new TestValue<int?>(null) },
+                new object[] { new TestValue<uint>(uint.MinValue) },
                 new object[] { new TestValue<uint>(uint.MaxValue) },
+                new object[] { new TestValue<uint?>(null) },
                 new object[] { new TestValue<float>(float.MinValue) },
-                new object[] { new TestValue<float?>(123.999f) },
                 new object[] { new TestValue<float>(float.MaxValue) },
+                new object[] { new TestValue<float?>(123f) },
+                new object[] { new TestValue<float?>(null) },
                 new object[] { new TestValue<double>(double.MaxValue) },
                 new object[] { new TestValue<double>(double.MinValue) },
-                new object[] { new TestValue<long?>(123L) },
-                new object[] { new TestValue<long>(long.MaxValue) },
+                new object[] { new TestValue<double?>(null) },
                 new object[] { new TestValue<long>(long.MinValue) },
+                new object[] { new TestValue<long>(long.MaxValue) },
+                new object[] { new TestValue<long?>(123L) },
+                new object[] { new TestValue<long?>(null) },
+                new object[] { new TestValue<ulong>(ulong.MinValue) },
                 new object[] { new TestValue<ulong>(ulong.MaxValue) },
+                new object[] { new TestValue<ulong?>(null) },
+                new object[] { new TestValue<decimal>(decimal.MinValue) },
                 new object[] { new TestValue<decimal>(decimal.MaxValue) },
+                new object[] { new TestValue<decimal?>(null) },
                 new object[] { new TestValue<string>(new string('*', 10)) },
+                new object[] { new TestValue<string>(string.Empty) }, // null string returns string.Empty!
+                new object[] { new TestValue<byte>(byte.MinValue) },
                 new object[] { new TestValue<byte>(byte.MaxValue) },
+                new object[] { new TestValue<byte?>(null) },
+
+                // TODO: To be verified:
                 //new object[] { new TestValue<Guid>(Guid.NewGuid()) },
                 //new object[] { new TestValue<DateTime>(DateTime.Now.ToLocalTime()) },
                 //new object[] { new TestValue<DateTime>(DateTime.Now.ToUniversalTime()) },
@@ -291,6 +314,36 @@ namespace CrossPlatformLibrary.Settings.IntegrationTests
             outputValue.Name.Should().Be(person.Name);
             outputValue.Age.Should().Be(person.Age);
         }
+
+        [Fact]
+        public void ShouldReadDefaultValue()
+        {
+            // Arrange
+            var settingsService = SimpleIoc.Default.GetInstance<ISettingsService>();
+            var enumSettingsProperty = new SettingsProperty<Gender>(settingsService, "enumTest", Gender.Male);
+
+            // Act
+            var outputValue = enumSettingsProperty.Value;
+
+            // Assert
+            outputValue.Should().NotBeNull();
+            outputValue.Should().Be(Gender.Male);
+        }
+
+
+        [Fact]
+        public void ShouldReadWriteEnum()
+        {
+            // Arrange
+            var inputValue = Gender.Female;
+
+            // Act
+            var outputValue = ReadWriteValueOfType(inputValue);
+
+            // Assert
+            outputValue.Should().Be(Gender.Female);
+        }
+
 
         [Fact]
         public void ShouldReadWriteNullableValue()
