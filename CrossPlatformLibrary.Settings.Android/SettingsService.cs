@@ -23,14 +23,15 @@ namespace CrossPlatformLibrary.Settings
             {
                 using (var sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(Application.Context))
                 {
-                    var value = sharedPreferences.GetString(key, null);
-                    if (value == null)
+                    var settingsValue = sharedPreferences.GetString(key, null);
+                    if (settingsValue != null)
                     {
-                        return defaultValue;
+                        return settingsValue;
                     }
-                    return value;
                 }
             }
+
+            return defaultValue;
         }
 
         protected override void AddOrUpdateValueFunction<T>(string key, T value)

@@ -1,3 +1,5 @@
+using System;
+
 using Tracing;
 
 using TypeConverter;
@@ -30,10 +32,10 @@ namespace CrossPlatformLibrary.Settings
                     {
                         return settingsValue;
                     }
-
-                    return defaultValue;
                 }
             }
+
+            return defaultValue;
         }
 
         protected override void AddOrUpdateValueFunction<T>(string key, T value)
@@ -42,7 +44,7 @@ namespace CrossPlatformLibrary.Settings
             {
                 using (var defaults = NSUserDefaults.StandardUserDefaults)
                 {
-                    defaults.SetString(value.ToString(), key);
+                    defaults.SetString(Convert.ToString(value), key);
                     defaults.Synchronize();
                 }
             }
