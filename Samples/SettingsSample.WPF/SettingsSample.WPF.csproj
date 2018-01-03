@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrossPlatformLibrary, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CrossPlatformLibrary.2.0.1-pre3\lib\net45\CrossPlatformLibrary.dll</HintPath>
+    <Reference Include="CrossPlatformLibrary, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CrossPlatformLibrary.3.0.1-pre3\lib\net45\CrossPlatformLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CrossPlatformLibrary.Callouts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -44,7 +44,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="CrossPlatformLibrary.Settings, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CrossPlatformLibrary.Settings.2.0.2-pre7\lib\net45\CrossPlatformLibrary.Settings.dll</HintPath>
+      <HintPath>..\..\packages\CrossPlatformLibrary.Settings.2.0.2\lib\net45\CrossPlatformLibrary.Settings.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Guards, Version=1.0.14.0, Culture=neutral, PublicKeyToken=ac6aedb73a72f46e, processorArchitecture=MSIL">

@@ -8,9 +8,9 @@ namespace SettingsSample
 {
     public class SettingsSampleBootstrapper : Bootstrapper
     {
-        protected override void ConfigureContainer(ISimpleIoc container)
+        protected override void ConfigureContainer(SimpleIoc container)
         {
-            container.Register<IDemoSettingsService, DemoSettingsService>();
+            container.RegisterSingleton<IDemoSettingsService, DemoSettingsService>();
         }
     }
 }

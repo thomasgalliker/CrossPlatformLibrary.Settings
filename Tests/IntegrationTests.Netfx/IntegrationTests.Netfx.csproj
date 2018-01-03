@@ -36,8 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrossPlatformLibrary, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CrossPlatformLibrary.2.0.1-pre3\lib\net45\CrossPlatformLibrary.dll</HintPath>
+    <Reference Include="CrossPlatformLibrary, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CrossPlatformLibrary.3.0.1-pre3\lib\net45\CrossPlatformLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentAssertions, Version=4.17.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">

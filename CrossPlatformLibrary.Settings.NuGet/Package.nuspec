@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>CrossPlatformLibrary.Settings</id>
-    <version>2.0.2</version>
+    <version>3.0.0-pre1</version>
     <title>CrossPlatformLibrary.Settings</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -16,6 +16,9 @@
       windows phone winphone wp8 wpa81 win81 windowsphone android xamarin.forms xamarin.ios ios monoandroid monodroid monotouch
     </tags>
     <releaseNotes>
+3.0.0-pre
+- Integration of latest CrossPlatformLibrary 3.x
+
 2.0.2
 - Refactored to bait-and-switch pattern
 - Support for Nullable settings
@@ -31,7 +34,7 @@
     <language>en-US</language>
     <dependencies>
       <group>
-        <dependency id="CrossPlatformLibrary" version="[2.0.0,)" />
+        <dependency id="CrossPlatformLibrary" version="[3.0.0,)" />
         <dependency id="Guards" version="[1.0.14,)" />
         <dependency id="TypeConverter" version="[1.0.28-pre92,)"/>
         <dependency id="XmlSerializerHelper" version="[3.0.2-pre2,)" />
