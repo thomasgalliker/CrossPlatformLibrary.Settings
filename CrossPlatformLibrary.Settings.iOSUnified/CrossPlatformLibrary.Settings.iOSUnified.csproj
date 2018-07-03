@@ -37,11 +37,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\CrossPlatformLibrary.Settings.iOS\SettingsService.cs">
-      <Link>SettingsService.cs</Link>
-    </Compile>
     <Compile Include="LinkerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CrossPlatformLibrary, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
