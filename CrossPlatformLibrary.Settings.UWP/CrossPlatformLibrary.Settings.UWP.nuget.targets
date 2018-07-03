@@ -8,6 +8,5 @@
     <Import Project="$(NuGetPackageRoot)\Microsoft.Net.Native.SharedLibrary-arm\1.7.0\build\Microsoft.Net.Native.SharedLibrary-arm.targets" Condition="Exists('$(NuGetPackageRoot)\Microsoft.Net.Native.SharedLibrary-arm\1.7.0\build\Microsoft.Net.Native.SharedLibrary-arm.targets')" />
     <Import Project="$(NuGetPackageRoot)\Microsoft.Net.Native.SharedLibrary-x64\1.7.0\build\Microsoft.Net.Native.SharedLibrary-x64.targets" Condition="Exists('$(NuGetPackageRoot)\Microsoft.Net.Native.SharedLibrary-x64\1.7.0\build\Microsoft.Net.Native.SharedLibrary-x64.targets')" />
     <Import Project="$(NuGetPackageRoot)\Microsoft.Net.Native.SharedLibrary-x86\1.7.0\build\Microsoft.Net.Native.SharedLibrary-x86.targets" Condition="Exists('$(NuGetPackageRoot)\Microsoft.Net.Native.SharedLibrary-x86\1.7.0\build\Microsoft.Net.Native.SharedLibrary-x86.targets')" />
-    <Import Project="$(NuGetPackageRoot)\xunit.runner.devices\2.1.0\build\uap10.0\xunit.runner.devices.targets" Condition="Exists('$(NuGetPackageRoot)\xunit.runner.devices\2.1.0\build\uap10.0\xunit.runner.devices.targets')" />
   </ImportGroup>
 </Project>

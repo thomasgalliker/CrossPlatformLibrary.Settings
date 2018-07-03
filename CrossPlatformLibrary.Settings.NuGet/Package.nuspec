@@ -13,7 +13,7 @@
     <description>CrossPlatformLibrary.Settings is a plug-in for reading and writing of platform-independent application settings.</description>
     <tags>
       xamarin pcl CrossPlatformLibrary CrossPlatformLibrary.settings plugin for settings IsolatedStorageProperty settingsservice PreferenceManager ApplicationData IsolatedStorage
-      windows phone winphone wp8 wpa81 win81 windowsphone android xamarin.forms xamarin.ios ios monoandroid monodroid monotouch
+      windows universal uwp android xamarin.forms xamarin.ios ios monoandroid monodroid monotouch
     </tags>
     <releaseNotes>
 3.0.0-pre

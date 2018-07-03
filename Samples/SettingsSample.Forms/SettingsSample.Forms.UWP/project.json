@@ -5,10 +5,10 @@
     "CrossPlatformLibrary.Callouts": "2.0.0-pre5",
     "CrossPlatformLibrary.Settings": "2.0.2",
     "Guards": "1.0.14",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "6.0.5",
     "Tracing": "1.0.3-pre3",
     "TypeConverter": "1.0.28-pre92",
-    "Xamarin.Forms": "2.3.3.168"
+    "Xamarin.Forms": "2.5.0.121934"
   },
   "frameworks": {
     "uap10.0": {}
