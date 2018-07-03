@@ -62,21 +62,6 @@
     <file src="..\CrossPlatformLibrary.Settings.Netfx\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\net45\CrossPlatformLibrary.Settings.pdb" />
     <file src="..\CrossPlatformLibrary.Settings.Netfx\bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\net45\CrossPlatformLibrary.Settings.xml" />
 
-    <!--Windows Phone 8-->
-    <file src="..\CrossPlatformLibrary.Settings.WindowsPhone8\Bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\wp8\CrossPlatformLibrary.Settings.dll" />
-    <file src="..\CrossPlatformLibrary.Settings.WindowsPhone8\Bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\wp8\CrossPlatformLibrary.Settings.pdb" />
-    <file src="..\CrossPlatformLibrary.Settings.WindowsPhone8\Bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\wp8\CrossPlatformLibrary.Settings.xml" />
-
-    <!--Windows Phone 8.1-->
-    <file src="..\CrossPlatformLibrary.Settings.WindowsPhone81\Bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\wpa81\CrossPlatformLibrary.Settings.dll" />
-    <file src="..\CrossPlatformLibrary.Settings.WindowsPhone81\Bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\wpa81\CrossPlatformLibrary.Settings.pdb" />
-    <file src="..\CrossPlatformLibrary.Settings.WindowsPhone81\Bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\wpa81\CrossPlatformLibrary.Settings.xml" />
-
-    <!--Windows Store-->
-    <file src="..\CrossPlatformLibrary.Settings.WindowsStore\Bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\win81\CrossPlatformLibrary.Settings.dll" />
-    <file src="..\CrossPlatformLibrary.Settings.WindowsStore\Bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\win81\CrossPlatformLibrary.Settings.pdb" />
-    <file src="..\CrossPlatformLibrary.Settings.WindowsStore\Bin\Release\CrossPlatformLibrary.Settings.xml" target="lib\win81\CrossPlatformLibrary.Settings.xml" />
-
     <!--Universal Windows Platform-->
     <file src="..\CrossPlatformLibrary.Settings.UWP\bin\Release\CrossPlatformLibrary.Settings.dll" target="lib\uap10.0\CrossPlatformLibrary.Settings.dll" />
     <file src="..\CrossPlatformLibrary.Settings.UWP\bin\Release\CrossPlatformLibrary.Settings.pdb" target="lib\uap10.0\CrossPlatformLibrary.Settings.pdb" />
